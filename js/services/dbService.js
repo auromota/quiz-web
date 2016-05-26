@@ -51,13 +51,13 @@
 
         function initDatabase() {
             connect().then(function() {
-                $rootScope.$broadcast('lovefield-starter-event:dbConnected');
+                $rootScope.$broadcast('dbConnected');
                 checkForExistingData().then(
                     function(dataExists) {
                         if(dataExists === false) {
                             insertSeedData().then(
                                 function() {
-                                    $rootScope.$broadcast('lovefield-starter-event:seedDataInserted');
+                                    $rootScope.$broadcast('seedDataInserted');
                                 }
                             )
                         }
