@@ -12,6 +12,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/credentials',
             templateUrl: 'partials/_credentials.html',
             controller: 'CredentialsController'
+        })
+        .state('logs', {
+            url: '/logs',
+            templateUrl: 'partials/_logs.html',
+            controller: 'LogsController'
         });
 
 });
