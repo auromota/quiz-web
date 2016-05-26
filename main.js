@@ -11,10 +11,9 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-    win = new BrowserWindow({width: 500, height: 500, show: false});
+    win = new BrowserWindow({width: 800, height: 600, show: false, fullscreen: true});
     win.setMenu(null);
     win.loadURL('file://' + __dirname + '/index.html');
-    win.maximize();
     win.show();
     win.on('closed', function() {
         mainWindow = null;
