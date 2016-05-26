@@ -2,15 +2,30 @@
   "name": "quiz",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron main.js"
   },
   "author": "BlueOrc",
-  "license": "ISC",
+  "contributors": [
+    {
+      "name": "Auro Mota",
+      "email": "auro@blueorc.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/auromota/atq-quiz"
+  },
+  "bugs": {
+    "url": "https://github.com/auromota/atq-quiz/issues"
+  },
   "dependencies": {
     "angular": "^1.5.5",
     "angular-ui-router": "^0.3.0",
+    "pretty-bytes": "^3.0.1"
+  },
+  "devDependencies": {
     "electron-prebuilt": "^1.1.3"
   }
 }
