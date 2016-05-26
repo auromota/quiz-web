@@ -1,22 +1,27 @@
-app.config(function($stateProvider, $urlRouterProvider) {
+(function() {
+    'use strict';
 
-    $urlRouterProvider.otherwise('/home');
+    app.config(configRoute);
 
-    $stateProvider
-        .state('home', {
-            url: '/home',
-            templateUrl: 'partials/_home.html',
-            controller: 'HomeController'
-        })
-        .state('credentials', {
-            url: '/credentials',
-            templateUrl: 'partials/_credentials.html',
-            controller: 'CredentialsController'
-        })
-        .state('logs', {
-            url: '/logs',
-            templateUrl: 'partials/_logs.html',
-            controller: 'LogsController'
-        });
+    function configRoute($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/home');
 
-});
+        $stateProvider
+            .state('home', {
+                url: '/home',
+                templateUrl: 'partials/_home.html',
+                controller: 'homeCtrl'
+            })
+            .state('credentials', {
+                url: '/credentials',
+                templateUrl: 'partials/_credentials.html',
+                controller: 'credentialsCtrl'
+            })
+            .state('logs', {
+                url: '/logs',
+                templateUrl: 'partials/_logs.html',
+                controller: 'logsCtrl'
+            });
+
+    }
+})();

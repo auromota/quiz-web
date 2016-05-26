@@ -1,7 +1,14 @@
-app.controller('HomeController', ['$scope', function($scope) {
+(function() {
+    'use strict';
 
-    $scope.exit = function() {
-        window.top.close();
+    app.controller('homeCtrl', homeCtrl);
+
+    homeCtrl.$inject = ['$scope'];
+
+    function homeCtrl($scope) {
+        $scope.exit = function() {
+            window.top.close();
+        }
     }
-
-}]);
+    
+})();
