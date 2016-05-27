@@ -12,16 +12,18 @@
 
     function dbService($http, $log, $q, $rootScope, TABLE) {
         var db = null;
-        var userTable = null;
-        var questionTable = null;
-        var isConnecting = false;
+        var tables = {};
+        var tableNames = Object.keys(TABLE);
         var service = {
             db: db,
-            userTable: userTable,
-            questionTable: questionTable,
             connect: connect,
             initDatabase: initDatabase
         };
+        tableNames.forEach(function(tableName) {
+            tables[tableName] = null;
+            service[tableName] = tables[tableName];
+        });
+        var isConnecting = false;
         return service;
 
         function connect() {
@@ -39,8 +41,9 @@
                             function(database) {
                                 isConnecting = false;
                                 service.db = database;
-                                service.userTable = service.db.getSchema().table(TABLE.User.name);
-                                service.questionTable = service.db.getSchema().table(TABLE.Question.name);
+                                tableNames.forEach(function(tableName) {
+                                    service[tableName] = service.db.getSchema().table(tableName);
+                                });
                                 window.db = database;
                                 deferred.resolve();
                             }
@@ -75,7 +78,7 @@
             var schemaBuilder = lf.schema.create('database', 1);
             var tableNames = Object.keys(TABLE);
             tableNames.forEach(function(tableName) {
-                var table = schemaBuilder.createTable(TABLE[tableName].name);
+                var table = schemaBuilder.createTable(tableName);
                 if(TABLE[tableName].columns) {
                     TABLE[tableName].columns.forEach(function(column) {
                         table.addColumn(column.name, column.type);
@@ -111,10 +114,10 @@
             return $http.get(url).then(
                 function(response) {
                     var rows = response.data.map(function(obj) {
-                        return service.questionTable.createRow(obj);
+                        return service.questions.createRow(obj);
                     });
                     return service.db.insert()
-                        .into(service.questionTable)
+                        .into(service.questions)
                         .values(rows)
                         .exec();
                 }
@@ -124,7 +127,7 @@
         function checkForExistingData() {
             var deferred = $q.defer();
             service.db.select().
-                from(service.questionTable).
+                from(service.questions).
                 exec().then(
                     function(rows) {
                         deferred.resolve(rows.length > 0);

@@ -6,24 +6,24 @@
 (function() {
     'use strict';
 
-    app.factory('userService', userService);
+    app.factory('testService', testService);
 
-    userService.$inject = ['$q', 'dbService'];
+    testService.$inject = ['$q', 'dbService'];
 
-    function userService($q, dbService) {
+    function testService($q, dbService) {
         var service = {
             getById: getById,
-            save: save
+            add: add
         }
 
         return service;
 
-        function save(user) {
+        function add(user) {
             var deferred = $q.defer();
             dbService.connect().then(function() {
-                var row = dbService.users.createRow(user);
-                dbService.db.insertOrReplace()
-                    .into(dbService.users)
+                var row = dbService.tests.createRow(user);
+                dbService.db.add()
+                    .into(dbService.tests)
                     .values([row])
                     .exec()
                     .then(function(response) {
@@ -39,8 +39,8 @@
             var deferred = $q.defer();
             dbService.connect().then(function() {
                 dbService.db.select()
-                    .from(dbService.users)
-                    .where(dbService.users.id.eq(id))
+                    .from(dbService.tests)
+                    .where(dbService.tests.id.eq(id))
                     .exec()
                     .then(function(results) {
                         if(angular.isDefined(results) && results.length == 1) {

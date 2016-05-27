@@ -16,14 +16,13 @@
         $scope.submit = function() {
             if(confirm('Sua matrícula é ' + $scope.user.id + '?')) {
                 userService.save($scope.user).then(
-                    function(response) {
-                        console.log(response);
-                    }, function(err) {
-                        console.log(err);
+                    function(user) {
+
                     }
                 );
             }
         }
+
     }
 
 })();

@@ -6,8 +6,7 @@
 (function() {
     'use strict';
 
-    var User = {
-        name: 'user',
+    var users = {
         columns: [
             { name: 'id', type: lf.Type.STRING },
             { name: 'name', type: lf.Type.STRING }
@@ -15,8 +14,7 @@
         primaryKeys: [{column: 'id'}]
     };
 
-    var Question = {
-        name: 'question',
+    var questions = {
         columns: [
             { name: 'id', type: lf.Type.INTEGER },
             { name: 'text', type: lf.Type.STRING },
@@ -29,20 +27,19 @@
         primaryKeys: [{column: 'id', isAutoIncrement: true}]
     };
 
-    var Test = {
-        name: 'test',
+    var tests = {
         columns: [
             { name: 'id', type: lf.Type.INTEGER },
             { name: 'userId', type: lf.Type.STRING }
         ],
         primaryKeys: [{column: 'id', isAutoIncrement: true}],
-        foreignKeys: [{name: 'fkUserId', column: 'userId', ref: 'user.id', action: lf.ConstraintAction.CASCADE}]
+        foreignKeys: [{name: 'fkUserId', column: 'userId', ref: 'users.id', action: lf.ConstraintAction.CASCADE}]
     }
 
     var tables = {
-        User: User,
-        Question: Question,
-        Test: Test
+        users: users,
+        questions: questions,
+        tests: tests
     };
 
     app.constant('TABLE', tables);
