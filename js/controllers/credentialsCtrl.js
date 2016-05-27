@@ -3,14 +3,14 @@
 
     app.controller('credentialsCtrl', credentialsCtrl);
 
-    credentialsCtrl.$inject = ['$scope'];
+    credentialsCtrl.$inject = ['$scope', 'userService'];
 
-    function credentialsCtrl($scope) {
+    function credentialsCtrl($scope, userService) {
         $scope.user = {};
 
         $scope.submit = function() {
-            console.log('teste');
+            userService.add($scope.user);
         }
     }
-    
+
 })();

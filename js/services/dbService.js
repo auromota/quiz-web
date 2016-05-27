@@ -71,19 +71,32 @@
             var tableNames = Object.keys(TABLE);
             tableNames.forEach(function(tableName) {
                 var table = schemaBuilder.createTable(TABLE[tableName].name);
-                TABLE[tableName].columns.forEach(function(column) {
-                    table.addColumn(column.name, column.type);
-                    if(column.isNullable) {
-                        table.addNullable([column.name]);
-                    }
-                })
-                TABLE[tableName].primaryKeys.forEach(function(pk) {
-                    if(pk.isAutoIncrement) {
-                        table.addPrimaryKey([pk.column], true);
-                    } else {
-                        table.addPrimaryKey([pk.column]);
-                    }
-                });
+                if(TABLE[tableName].columns) {
+                    TABLE[tableName].columns.forEach(function(column) {
+                        table.addColumn(column.name, column.type);
+                        if(column.isNullable) {
+                            table.addNullable([column.name]);
+                        }
+                    });
+                }
+                if(TABLE[tableName].primaryKeys) {
+                    TABLE[tableName].primaryKeys.forEach(function(pk) {
+                        if(pk.isAutoIncrement) {
+                            table.addPrimaryKey([pk.column], true);
+                        } else {
+                            table.addPrimaryKey([pk.column]);
+                        }
+                    });
+                }
+                if(TABLE[tableName].foreignKeys) {
+                    TABLE[tableName].foreignKeys.forEach(function(fk) {
+                        table.addForeignKey(fk.name, {
+                            local: fk.column,
+                            ref: fk.ref,
+                            action: fk.action
+                        })
+                    });
+                }
             });
             return schemaBuilder;
         }

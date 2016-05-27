@@ -30,7 +30,8 @@
             { name: 'id', type: lf.Type.INTEGER },
             { name: 'userId', type: lf.Type.STRING }
         ],
-        primaryKeys: [{column: 'id', isAutoIncrement: true}]
+        primaryKeys: [{column: 'id', isAutoIncrement: true}],
+        foreignKeys: [{name: 'fkUserId', column: 'userId', ref: 'user.id', action: lf.ConstraintAction.CASCADE}]
     }
 
     var tables = {
