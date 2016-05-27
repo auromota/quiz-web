@@ -1,3 +1,8 @@
+/*
+    Author: Auro Mota <auro@blueorc.com>
+    (c) 2016 BlueOrc http://blueorc.com/
+*/
+
 (function() {
     'use strict';
 
@@ -9,7 +14,15 @@
         $scope.user = {};
 
         $scope.submit = function() {
-            userService.add($scope.user);
+            if(confirm('Sua matrícula é ' + $scope.user.id + '?')) {
+                userService.save($scope.user).then(
+                    function(response) {
+                        console.log(response);
+                    }, function(err) {
+                        console.log(err);
+                    }
+                );
+            }
         }
     }
 

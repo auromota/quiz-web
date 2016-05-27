@@ -1,3 +1,8 @@
+/*
+    Author: Auro Mota <auro@blueorc.com>
+    (c) 2016 BlueOrc http://blueorc.com/
+*/
+
 (function() {
     'use strict';
 
@@ -8,21 +13,23 @@
     function userService($q, dbService) {
         var service = {
             getById: getById,
-            add: add
+            save: save
         }
 
         return service;
 
-        function add(user) {
+        function save(user) {
             var deferred = $q.defer();
             dbService.connect().then(function() {
                 var row = dbService.userTable.createRow(user);
-                dbService.db.insert()
+                dbService.db.insertOrReplace()
                     .into(dbService.userTable)
                     .values([row])
                     .exec()
-                    .then(function() {
-                        deferred.resolve();
+                    .then(function(response) {
+                        deferred.resolve(response);
+                    }, function(err) {
+                        deferred.reject(err);
                     })
             });
             return deferred.promise;
