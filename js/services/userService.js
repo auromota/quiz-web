@@ -8,9 +8,9 @@
 
     app.factory('userService', userService);
 
-    userService.$inject = ['$q', 'dbService'];
+    userService.$inject = ['$q', 'dbService', 'crudService'];
 
-    function userService($q, dbService) {
+    function userService($q, dbService, crudService) {
         var service = {
             getById: getById,
             save: save
@@ -20,36 +20,25 @@
 
         function save(user) {
             var deferred = $q.defer();
-            dbService.connect().then(function() {
-                var row = dbService.users.createRow(user);
-                dbService.db.insertOrReplace()
-                    .into(dbService.users)
-                    .values([row])
-                    .exec()
-                    .then(function(response) {
-                        deferred.resolve(response[0]);
-                    }, function(err) {
-                        deferred.reject(err);
-                    })
-            });
+            crudService.insertOrReplace(user, dbService.users).then(
+                function(user) {
+                    deferred.resolve(user);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
             return deferred.promise;
         }
 
         function getById(id) {
             var deferred = $q.defer();
-            dbService.connect().then(function() {
-                dbService.db.select()
-                    .from(dbService.users)
-                    .where(dbService.users.id.eq(id))
-                    .exec()
-                    .then(function(results) {
-                        if(angular.isDefined(results) && results.length == 1) {
-                            deferred.resolve(results[0]);
-                        } else {
-                            deferred.reject();
-                        }
-                    });
-            });
+            crudService.getOne(id, dbService.users, 'id').then(
+                function(user) {
+                    deferred.resolve(user);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
             return deferred.promise;
         }
     }

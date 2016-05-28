@@ -8,16 +8,16 @@
 
     app.controller('credentialsCtrl', credentialsCtrl);
 
-    credentialsCtrl.$inject = ['$scope', 'userService'];
+    credentialsCtrl.$inject = ['$scope', '$rootScope', 'userService'];
 
-    function credentialsCtrl($scope, userService) {
+    function credentialsCtrl($scope, $rootScope, userService) {
         $scope.user = {};
 
         $scope.submit = function() {
             if(confirm('Sua matrícula é ' + $scope.user.id + '?')) {
                 userService.save($scope.user).then(
                     function(user) {
-
+                        $rootScope.$broadcast('userSelected', user);
                     }
                 );
             }
