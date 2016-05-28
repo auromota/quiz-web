@@ -12,7 +12,7 @@
 
     function crudService($q, dbService) {
         var service = {
-            getOne: getOne,
+            find: find,
             insert: insert,
             insertOrReplace: insertOrReplace
         }
@@ -23,7 +23,7 @@
             var deferred = $q.defer();
             dbService.connect().then(function() {
                 var row = table.createRow(data);
-                dbService.db.add()
+                dbService.db.insert()
                     .into(table)
                     .values([row])
                     .exec()
@@ -53,16 +53,16 @@
             return deferred.promise;
         }
 
-        function getOne(id, table, column) {
+        function find(value, table, column) {
             var deferred = $q.defer();
             dbService.connect().then(function() {
                 dbService.db.select()
                     .from(table)
-                    .where(table[column].eq(id))
+                    .where(table[column].eq(value))
                     .exec()
                     .then(function(results) {
-                        if(angular.isDefined(results) && results.length == 1) {
-                            deferred.resolve(results[0]);
+                        if(angular.isDefined(results)) {
+                            deferred.resolve(results);
                         } else {
                             deferred.reject();
                         }

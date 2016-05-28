@@ -32,15 +32,16 @@
 
         function getById(id) {
             var deferred = $q.defer();
-            crudService.getOne(id, dbService.users, 'id').then(
+            crudService.find(id, dbService.users, 'id').then(
                 function(user) {
-                    deferred.resolve(user);
+                    deferred.resolve(user[0]);
                 }, function(err) {
                     deferred.reject(err);
                 }
             );
             return deferred.promise;
         }
+
     }
 
 })();

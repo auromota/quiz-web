@@ -30,7 +30,8 @@
     var tests = {
         columns: [
             { name: 'id', type: lf.Type.INTEGER },
-            { name: 'userId', type: lf.Type.STRING }
+            { name: 'userId', type: lf.Type.STRING },
+            { name: 'isCompleted', type: lf.Type.BOOLEAN }
         ],
         primaryKeys: [{column: 'id', isAutoIncrement: true}],
         foreignKeys: [{name: 'fkUserId', column: 'userId', ref: 'users.id', action: lf.ConstraintAction.CASCADE}]

@@ -8,48 +8,50 @@
 
     app.factory('testService', testService);
 
-    testService.$inject = ['$q', 'dbService'];
+    testService.$inject = ['$q', 'dbService', 'crudService'];
 
-    function testService($q, dbService) {
+    function testService($q, dbService, crudService) {
         var service = {
-            getById: getById,
-            add: add
+            getByUserId: getByUserId,
+            add: add,
+            replace: replace
         }
 
         return service;
 
-        function add(user) {
+        function add(test) {
             var deferred = $q.defer();
-            dbService.connect().then(function() {
-                var row = dbService.tests.createRow(user);
-                dbService.db.add()
-                    .into(dbService.tests)
-                    .values([row])
-                    .exec()
-                    .then(function(response) {
-                        deferred.resolve(response[0]);
-                    }, function(err) {
-                        deferred.reject(err);
-                    })
-            });
+            crudService.insert(test, dbService.tests).then(
+                function(test) {
+                    deferred.resolve(test);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
             return deferred.promise;
         }
 
-        function getById(id) {
+        function replace(test) {
             var deferred = $q.defer();
-            dbService.connect().then(function() {
-                dbService.db.select()
-                    .from(dbService.tests)
-                    .where(dbService.tests.id.eq(id))
-                    .exec()
-                    .then(function(results) {
-                        if(angular.isDefined(results) && results.length == 1) {
-                            deferred.resolve(results[0]);
-                        } else {
-                            deferred.reject();
-                        }
-                    });
-            });
+            crudService.insertOrReplace(test, dbService.tests).then(
+                function(test) {
+                    deferred.resolve(test);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
+            return deferred.promise;
+        }
+
+        function getByUserId(userId) {
+            var deferred = $q.defer();
+            crudService.find(userId, dbService.tests, 'userId').then(
+                function(tests) {
+                    deferred.resolve(tests);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
             return deferred.promise;
         }
     }
