@@ -16,7 +16,8 @@
             add: add,
             addAll: addAll,
             replace: replace,
-            deleteByTestId: deleteByTestId
+            deleteByTestId: deleteByTestId,
+            getById: getById
         }
 
         return service;
@@ -94,6 +95,18 @@
                     deferred.resolve();
                 }, function(err) {
                     deferred.reject(err);
+                }
+            );
+            return deferred.promise;
+        }
+
+        function getById(id) {
+            var deferred = $q.defer();
+            crudService.find(id, dbService.answers, 'id').then(
+                function(answers) {
+                    deferred.resolve(answers);
+                }, function(err) {
+                    deferred.reject(answers);
                 }
             );
             return deferred.promise;
