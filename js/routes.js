@@ -26,6 +26,11 @@
                 url: '/logs',
                 templateUrl: 'partials/_logs.html',
                 controller: 'logsCtrl'
+            })
+            .state('test', {
+                url: '/test/:answerId',
+                templateUrl: 'partials/_test.html',
+                controller: 'testCtrl'
             });
 
     }

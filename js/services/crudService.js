@@ -14,7 +14,9 @@
         var service = {
             find: find,
             insert: insert,
-            insertOrReplace: insertOrReplace
+            insertOrReplace: insertOrReplace,
+            findAll: findAll,
+            remove: remove
         }
 
         return service;
@@ -67,6 +69,39 @@
                             deferred.reject();
                         }
                     });
+            });
+            return deferred.promise;
+        }
+
+        function findAll(table) {
+            var deferred = $q.defer();
+            dbService.connect().then(function() {
+                dbService.db.select()
+                    .from(table)
+                    .exec()
+                    .then(function(results) {
+                        if(angular.isDefined(results)) {
+                            deferred.resolve(results);
+                        } else {
+                            deferred.reject();
+                        }
+                    });
+            });
+            return deferred.promise;
+        }
+
+        function remove(value, table, column) {
+            var deferred = $q.defer();
+            dbService.connect().then(function() {
+                dbService.db.delete()
+                    .from(table)
+                    .where(table[column].eq(value))
+                    .exec()
+                    .then(function(result) {
+                        deferred.resolve(result);
+                    }, function(err) {
+                        deferred.reject(err);
+                    })
             });
             return deferred.promise;
         }

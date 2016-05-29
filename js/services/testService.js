@@ -13,8 +13,7 @@
     function testService($q, dbService, crudService) {
         var service = {
             getByUserId: getByUserId,
-            add: add,
-            replace: replace
+            add: add
         }
 
         return service;
@@ -22,18 +21,6 @@
         function add(test) {
             var deferred = $q.defer();
             crudService.insert(test, dbService.tests).then(
-                function(test) {
-                    deferred.resolve(test);
-                }, function(err) {
-                    deferred.reject(err);
-                }
-            );
-            return deferred.promise;
-        }
-
-        function replace(test) {
-            var deferred = $q.defer();
-            crudService.insertOrReplace(test, dbService.tests).then(
                 function(test) {
                     deferred.resolve(test);
                 }, function(err) {

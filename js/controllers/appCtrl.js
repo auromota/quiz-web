@@ -8,9 +8,9 @@
 
     app.controller('appCtrl', appCtrl);
 
-    appCtrl.$inject = ['$scope', 'testService'];
+    appCtrl.$inject = ['$scope', '$state', 'testService', 'answerService', 'questionService'];
 
-    function appCtrl($scope, testService) {
+    function appCtrl($scope, $state, testService, answerService, questionService) {
         $scope.user = {};
         $scope.test = {};
 
@@ -37,7 +37,7 @@
                 if(!test.isCompleted) {
                     testId = test.id;
                     if(confirm('Você já tem um teste em progresso. Deseja continuá-lo?')) {
-
+                        loadTest(testId);
                     } else {
                         restartTest(testId);
                     }
@@ -45,26 +45,77 @@
             });
         }
 
+        function loadTest(testId) {
+
+        }
+
         function restartTest(testId) {
             $scope.test = {
+                id: testId,
                 userId: $scope.user.id,
                 isCompleted: false
             }
-            testService.replace($scope.test).then(
-                function(test) {
-                    $scope.test = angular.copy(test);
+            answerService.deleteByTestId($scope.test.id).then(
+                function() {
+                    addRandomQuestionsToTest($scope.test);
                 }
             )
         }
 
         function createNewTest() {
             $scope.test = {
-                userId: user.id,
+                userId: $scope.user.id,
                 isCompleted: false
             }
             testService.add($scope.test).then(
                 function(test) {
                     $scope.test = angular.copy(test);
+                    addRandomQuestionsToTest($scope.test);
+                }
+            )
+        }
+
+        function isNumberValid(array, pos) {
+            var isValid = true;
+            array.forEach(function(id) {
+                if(id == pos) isValid = false;
+            });
+            return isValid;
+        }
+
+        function generateRandomArray(size) {
+            var array = [];
+            var arraySize = size > 15 ? 15 : size;
+            for(var i=0; i<arraySize; i++) {
+                var pos = Math.floor(Math.random() * size);
+                while(!isNumberValid(array, pos)) {
+                    var pos = Math.floor(Math.random() * size);
+                }
+                array.push(pos);
+            }
+            return array;
+        }
+
+        function addRandomQuestionsToTest(test) {
+            questionService.getAll().then(
+                function(questions) {
+                    var positions = generateRandomArray(questions.length);
+                    var answers = [];
+                    positions.forEach(function(pos) {
+                        var answer = {
+                            testId: test.id,
+                            questionId: questions[pos].id
+                        }
+                        answers.push(answer);
+                    })
+                    answerService.addAll(answers).then(
+                        function(answers) {
+                            $scope.answers = answers;
+                            $state.go('test', {answerId: answers[0].id});
+                        }, function(err) {
+                            console.log(err);
+                        }
+                    );
                 }
             )
         }
