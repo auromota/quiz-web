@@ -13,7 +13,9 @@
     function testService($q, dbService, crudService) {
         var service = {
             getByUserId: getByUserId,
-            add: add
+            add: add,
+            update: update,
+            getById: getById
         }
 
         return service;
@@ -33,6 +35,30 @@
         function getByUserId(userId) {
             var deferred = $q.defer();
             crudService.find(userId, dbService.tests, 'userId').then(
+                function(tests) {
+                    deferred.resolve(tests);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
+            return deferred.promise;
+        }
+
+        function update(test) {
+            var deferred = $q.defer();
+            crudService.update(test.id, test, dbService.tests).then(
+                function(result) {
+                    deferred.resolve(result);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
+            return deferred.promise;
+        }
+
+        function getById(id) {
+            var deferred = $q.defer();
+            crudService.find(id, dbService.tests, 'id').then(
                 function(tests) {
                     deferred.resolve(tests);
                 }, function(err) {

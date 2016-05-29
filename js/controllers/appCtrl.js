@@ -31,8 +31,12 @@
         function getUserTests() {
             testService.getByUserId($scope.user.id).then(
                 function(tests) {
-                    if(tests.length) {
-                        checkForIncompleteTests(tests);
+                    if(checkForIncompleteTests(tests)) {
+                        if(confirm('Você já tem um teste em progresso. Deseja continuá-lo?')) {
+                            loadTest(testId);
+                        } else {
+                            restartTest(testId);
+                        }
                     } else {
                         createNewTest();
                     }
@@ -45,17 +49,25 @@
             tests.forEach(function(test) {
                 if(!test.isCompleted) {
                     testId = test.id;
-                    if(confirm('Você já tem um teste em progresso. Deseja continuá-lo?')) {
-                        loadTest(testId);
-                    } else {
-                        restartTest(testId);
-                    }
                 }
             });
+            return testId;
         }
 
         function loadTest(testId) {
-
+            testService.getById(testId).then(
+                function(tests) {
+                    if(tests.length) {
+                        $scope.test = angular.copy(tests[0]);
+                        answerService.getByTestId($scope.test.id).then(
+                            function(answers) {
+                                $scope.answers = angular.copy(answers);
+                                pickAnotherQuestion();
+                            }
+                        )
+                    }
+                }
+            )
         }
 
         function restartTest(testId) {
@@ -139,7 +151,11 @@
             if(id) {
                 $state.go('test', {answerId: id});
             } else {
-                $state.go('testCompleted', {testId: $scope.answers[0].testId});
+                testService.update({id: $scope.answers[0].testId, isCompleted: true}).then(
+                    function() {
+                        $state.go('testCompleted', {testId: $scope.answers[0].testId});
+                    }
+                );
             }
         }
     }
