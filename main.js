@@ -20,7 +20,6 @@ app.on('ready', function() {
     win.setMenu(null);
     win.loadURL('file://' + __dirname + '/index.html');
     win.show();
-    win.openDevTools();
     win.on('closed', function() {
         mainWindow = null;
     });

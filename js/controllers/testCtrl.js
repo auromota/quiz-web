@@ -42,6 +42,11 @@
             }
             answerService.update($scope.answer).then(
                 function() {
+                    if($scope.answer.right) {
+                        alert('Você acertou!');
+                    } else {
+                        alert('Você errou!');
+                    }
                     $rootScope.$broadcast('questionAnswered', $scope.answer);
                 }
             );
