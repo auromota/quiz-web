@@ -19,6 +19,15 @@
             getUserTests();
         });
 
+        $scope.$on('questionAnswered', function(event, answer) {
+            $scope.answers.forEach(function(a) {
+                if(a.id == answer.id) {
+                    a = angular.copy(answer);
+                }
+            });
+            pickAnotherQuestion();
+        });
+
         function getUserTests() {
             testService.getByUserId($scope.user.id).then(
                 function(tests) {
@@ -118,6 +127,20 @@
                     );
                 }
             )
+        }
+
+        function pickAnotherQuestion() {
+            var id;
+            $scope.answers.forEach(function(answer) {
+                if(answer.answer == null) {
+                    id = answer.id;
+                }
+            })
+            if(id) {
+                $state.go('test', {answerId: id});
+            } else {
+                $state.go('testCompleted', {testId: $scope.answers[0].testId});
+            }
         }
     }
 

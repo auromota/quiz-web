@@ -8,9 +8,9 @@
 
     app.controller('testCtrl', testCtrl);
 
-    testCtrl.$inject = ['$scope', '$stateParams', 'answerService', 'questionService'];
+    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', 'answerService', 'questionService'];
 
-    function testCtrl($scope, $stateParams, answerService, questionService) {
+    function testCtrl($scope, $stateParams, $rootScope, answerService, questionService) {
 
         function loadQuestion() {
             answerService.getById(parseInt($stateParams.answerId)).then(
@@ -30,6 +30,22 @@
         }
 
         loadQuestion();
+
+        $scope.hasAnswered = false;
+
+        $scope.submit = function() {
+            $scope.hasAnswered = true;
+            if(parseInt($scope.answer.answer) == $scope.question.rightAnswer) {
+                $scope.answer.right = true;
+            } else {
+                $scope.answer.right = false;
+            }
+            answerService.update($scope.answer).then(
+                function() {
+                    $rootScope.$broadcast('questionAnswered', $scope.answer);
+                }
+            );
+        }
     }
 
 })();

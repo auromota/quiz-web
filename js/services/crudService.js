@@ -16,7 +16,8 @@
             insert: insert,
             insertOrReplace: insertOrReplace,
             findAll: findAll,
-            remove: remove
+            remove: remove,
+            update: update
         }
 
         return service;
@@ -102,6 +103,27 @@
                     }, function(err) {
                         deferred.reject(err);
                     })
+            });
+            return deferred.promise;
+        }
+
+        function update(id, data, table) {
+            var deferred = $q.defer();
+            dbService.connect().then(function() {
+                var query = dbService.db.update(table);
+                var columns = Object.keys(data);
+                columns.forEach(function(column) {
+                    if(column != table.id.name_) {
+                        query = query.set(table[column], data[column]);
+                    }
+                });
+                query.where(table[table.id.name_].eq(id)).exec().then(
+                    function(result) {
+                        deferred.resolve(result);
+                    }, function(err) {
+                        deferred.reject(err);
+                    }
+                )
             });
             return deferred.promise;
         }

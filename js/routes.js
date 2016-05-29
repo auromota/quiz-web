@@ -31,6 +31,11 @@
                 url: '/test/:answerId',
                 templateUrl: 'partials/_test.html',
                 controller: 'testCtrl'
+            })
+            .state('testCompleted', {
+                url: '/testCompleted/:testId',
+                templateUrl: 'partials/_test-completed.html',
+                controller: 'testCompletedCtrl'
             });
 
     }

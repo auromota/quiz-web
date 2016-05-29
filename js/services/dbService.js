@@ -110,7 +110,7 @@
         }
 
         function insertSeedData() {
-            var url = '../questions.json';
+            var url = './questions.json';
             return $http.get(url).then(
                 function(response) {
                     var rows = response.data.map(function(obj) {

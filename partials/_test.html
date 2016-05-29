@@ -4,5 +4,12 @@
 -->
 
 <div>
-    {{question.text}}
+    <form ng-submit="submit()">
+        <h5>{{question.text}}</h5>
+        <input type="radio" ng-model="answer.answer" value="1">{{question.firstAnswer}}<br>
+        <input type="radio" ng-model="answer.answer" value="2">{{question.secondAnswer}}<br>
+        <input type="radio" ng-model="answer.answer" value="3">{{question.thirdAnswer}}<br>
+        <input type="radio" ng-model="answer.answer" value="4">{{question.fourthAnswer}}<br>
+        <input type="submit" ng-disabled="hasAnswered">
+    </form>
 </div>
