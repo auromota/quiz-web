@@ -1,11 +1,9 @@
 {
-    "name": "quiz",
+    "name": "web-quiz",
     "version": "1.0.0",
     "description": "",
-    "main": "main.js",
     "scripts": {
-        "dev": "http-server",
-        "start": "electron main.js"
+        "start": "http-server -o"
     },
     "author": "BlueOrc",
     "contributors": [
@@ -25,10 +23,6 @@
         "angular": "^1.5.5",
         "angular-ui-router": "^0.3.0",
         "http-server": "^0.9.0",
-        "lovefield": "^2.1.8",
-        "pretty-bytes": "^3.0.1"
-    },
-    "devDependencies": {
-        "electron-prebuilt": "^1.1.3"
+        "lovefield": "^2.1.8"
     }
 }
