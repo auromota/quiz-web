@@ -14,5 +14,13 @@
         "thirdAnswer": "Resposta 2.3",
         "fourthAnswer": "Resposta 2.4",
         "rightAnswer": 3
+    },
+    {
+        "text": "Pergunta 3",
+        "firstAnswer": "Resposta 3.1",
+        "secondAnswer": "Resposta 3.2",
+        "thirdAnswer": "Resposta 3.3",
+        "fourthAnswer": "Resposta 3.4",
+        "rightAnswer": 4
     }
 ]

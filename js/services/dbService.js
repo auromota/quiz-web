@@ -60,15 +60,13 @@
         function initDatabase() {
             connect().then(function() {
                 $rootScope.$broadcast('dbConnected');
-                checkForExistingData().then(
-                    function(dataExists) {
-                        if(dataExists === false) {
-                            insertSeedData().then(
-                                function() {
-                                    $rootScope.$broadcast('seedDataInserted');
-                                }
-                            )
-                        }
+                deleteExistingQuestions().then(
+                    function() {
+                        insertQuestions().then(
+                            function() {
+                                $rootScope.$broadcast('seedDataInserted');
+                            }
+                        )
                     }
                 );
             })
@@ -109,7 +107,7 @@
             return schemaBuilder;
         }
 
-        function insertSeedData() {
+        function insertQuestions() {
             var url = './questions.json';
             return $http.get(url).then(
                 function(response) {
@@ -124,13 +122,13 @@
             );
         }
 
-        function checkForExistingData() {
+        function deleteExistingQuestions() {
             var deferred = $q.defer();
-            service.db.select().
+            service.db.delete().
                 from(service.questions).
                 exec().then(
-                    function(rows) {
-                        deferred.resolve(rows.length > 0);
+                    function() {
+                        deferred.resolve();
                     }
                 );
             return deferred.promise;
