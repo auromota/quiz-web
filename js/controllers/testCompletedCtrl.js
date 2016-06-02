@@ -8,9 +8,17 @@
 
     app.controller('testCompletedCtrl', testCompletedCtrl);
 
-    testCompletedCtrl.$inject = ['$scope', '$stateParams', 'answerService'];
+    testCompletedCtrl.$inject = ['$scope', '$stateParams', '$state', 'answerService', 'securityService'];
 
-    function testCompletedCtrl($scope, $stateParams, answerService) {
+    function testCompletedCtrl($scope, $stateParams, $state, answerService, securityService) {
+        var user = securityService.getUser();
+
+        if(user.id) {
+            loadTest($stateParams.testId);
+        } else {
+            $state.go('home');
+        }
+
         $scope.answers = {};
         $scope.total = null;
         $scope.rightCount = null;
@@ -30,7 +38,6 @@
             )
         }
 
-        loadTest($stateParams.testId);
     }
 
 })();

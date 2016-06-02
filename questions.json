@@ -1,26 +1,26 @@
 [
     {
-        "text": "Pergunta 1",
-        "firstAnswer": "Resposta 1.1",
-        "secondAnswer": "Resposta 1.2",
-        "thirdAnswer": "Resposta 1.3",
-        "fourthAnswer": "Resposta 1.4",
+        "text": "(FUVEST 2005) O menor número inteiro positivo que devemos adicionar a 987 para que a soma seja o quadrado de um número inteiro positivo é:",
+        "firstAnswer": "35",
+        "secondAnswer": "33",
+        "thirdAnswer": "32",
+        "fourthAnswer": "37",
+        "rightAnswer": 4
+    },
+    {
+        "text": "Para ser considerado um fóssil precisa ter no mínimo quantos anos?",
+        "firstAnswer": "2 milhões de anos",
+        "secondAnswer": "11 mil anos",
+        "thirdAnswer": "25 mil anos",
+        "fourthAnswer": "30 mil anos",
         "rightAnswer": 2
     },
     {
-        "text": "Pergunta 2",
-        "firstAnswer": "Resposta 2.1",
-        "secondAnswer": "Resposta 2.2",
-        "thirdAnswer": "Resposta 2.3",
-        "fourthAnswer": "Resposta 2.4",
-        "rightAnswer": 3
-    },
-    {
-        "text": "Pergunta 3",
-        "firstAnswer": "Resposta 3.1",
-        "secondAnswer": "Resposta 3.2",
-        "thirdAnswer": "Resposta 3.3",
-        "fourthAnswer": "Resposta 3.4",
-        "rightAnswer": 4
+        "text": "(FUVEST 2012) Do ponto de vista tectônico, núcleos rochosos mais antigos, em áreas continentais mais interiorizadas, tendem a ser os mais estáveis, ou seja, menos sujeitos a abalos sísmicos e deformações. Em termos geomorfológicos, a maior estabilidade tectônica dessas áreas faz com que elas apresentem uma forte tendência à ocorrência, ao longo do tempo geológico, de um processo de",
+        "firstAnswer": "aplainamento das formas de relevo, decorrente do intemperismo e da erosão.",
+        "secondAnswer": "formação de depressões absolutas, gerada por acomodação de blocos rochosos.",
+        "thirdAnswer": "formação de canyons, decorrente de intensa erosão eólica.",
+        "fourthAnswer": "produção de desníveis topográficos acentuados, resultante da contínua sedimentação dos rios.",
+        "rightAnswer": 1
     }
 ]

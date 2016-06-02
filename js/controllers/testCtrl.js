@@ -8,9 +8,19 @@
 
     app.controller('testCtrl', testCtrl);
 
-    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', 'answerService', 'questionService'];
+    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', 'answerService', 'questionService', 'securityService'];
 
-    function testCtrl($scope, $stateParams, $rootScope, answerService, questionService) {
+    function testCtrl($scope, $stateParams, $rootScope, $state, answerService, questionService, securityService) {
+
+        var user = securityService.getUser();
+
+        if(user.id) {
+            loadQuestion();
+        } else {
+            $state.go('home');
+        }
+
+        $scope.hasAnswered = false;
 
         function loadQuestion() {
             answerService.getById(parseInt($stateParams.answerId)).then(
@@ -28,10 +38,6 @@
                 }
             )
         }
-
-        loadQuestion();
-
-        $scope.hasAnswered = false;
 
         $scope.submit = function() {
             $scope.hasAnswered = true;

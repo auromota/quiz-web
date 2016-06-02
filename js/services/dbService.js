@@ -57,21 +57,6 @@
             return deferred.promise;
         }
 
-        function initDatabase() {
-            connect().then(function() {
-                $rootScope.$broadcast('dbConnected');
-                deleteExistingQuestions().then(
-                    function() {
-                        insertQuestions().then(
-                            function() {
-                                $rootScope.$broadcast('seedDataInserted');
-                            }
-                        )
-                    }
-                );
-            })
-        }
-
         function buildSchema() {
             var schemaBuilder = lf.schema.create('database', 1);
             var tableNames = Object.keys(TABLE);
@@ -105,6 +90,21 @@
                 }
             });
             return schemaBuilder;
+        }
+
+        function initDatabase() {
+            connect().then(function() {
+                $rootScope.$broadcast('dbConnected');
+                deleteExistingQuestions().then(
+                    function() {
+                        insertQuestions().then(
+                            function() {
+                                $rootScope.$broadcast('seedDataInserted');
+                            }
+                        )
+                    }
+                );
+            })
         }
 
         function insertQuestions() {
