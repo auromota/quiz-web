@@ -13,16 +13,16 @@
     function dbService($http, $log, $q, $rootScope, TABLE) {
         var db = null;
         var tables = {};
-        var tableNames = Object.keys(TABLE);
         var service = {
             db: db,
             connect: connect,
             initDatabase: initDatabase
         };
-        tableNames.forEach(function(tableName) {
-            tables[tableName] = null;
-            service[tableName] = tables[tableName];
-        });
+        var key;
+        for(key in tables) {
+            tables[key] = null;
+            service[key] = tables[key];
+        }
         var isConnecting = false;
         return service;
 
@@ -41,9 +41,9 @@
                             function(database) {
                                 isConnecting = false;
                                 service.db = database;
-                                tableNames.forEach(function(tableName) {
-                                    service[tableName] = service.db.getSchema().table(tableName);
-                                });
+                                for(key in TABLE) {
+                                    service[key] = service.db.getSchema().table(key);
+                                }
                                 window.db = database;
                                 deferred.resolve();
                             }
@@ -59,19 +59,19 @@
 
         function buildSchema() {
             var schemaBuilder = lf.schema.create('database', 1);
-            var tableNames = Object.keys(TABLE);
-            tableNames.forEach(function(tableName) {
-                var table = schemaBuilder.createTable(tableName);
-                if(TABLE[tableName].columns) {
-                    TABLE[tableName].columns.forEach(function(column) {
+            var key;
+            for(key in TABLE) {
+                var table = schemaBuilder.createTable(key);
+                if(TABLE[key].columns) {
+                    TABLE[key].columns.forEach(function(column) {
                         table.addColumn(column.name, column.type);
                         if(column.isNullable) {
                             table.addNullable([column.name]);
                         }
                     });
                 }
-                if(TABLE[tableName].primaryKeys) {
-                    TABLE[tableName].primaryKeys.forEach(function(pk) {
+                if(TABLE[key].primaryKeys) {
+                    TABLE[key].primaryKeys.forEach(function(pk) {
                         if(pk.isAutoIncrement) {
                             table.addPrimaryKey([pk.column], true);
                         } else {
@@ -79,8 +79,8 @@
                         }
                     });
                 }
-                if(TABLE[tableName].foreignKeys) {
-                    TABLE[tableName].foreignKeys.forEach(function(fk) {
+                if(TABLE[key].foreignKeys) {
+                    TABLE[key].foreignKeys.forEach(function(fk) {
                         table.addForeignKey(fk.name, {
                             local: fk.column,
                             ref: fk.ref,
@@ -88,7 +88,7 @@
                         })
                     });
                 }
-            });
+            }
             return schemaBuilder;
         }
 
