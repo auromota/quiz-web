@@ -31,7 +31,7 @@
         columns: [
             { name: 'id', type: lf.Type.INTEGER },
             { name: 'userId', type: lf.Type.STRING },
-            { name: 'isCompleted', type: lf.Type.BOOLEAN }
+            { name: 'completedOn', type: lf.Type.DATE_TIME, isNullable: true }
         ],
         primaryKeys: [{ column: 'id', isAutoIncrement: true }],
         foreignKeys: [{ name: 'fkUserId', column: 'userId', ref: 'users.id', action: lf.ConstraintAction.CASCADE }]
@@ -43,7 +43,8 @@
             { name: 'testId', type: lf.Type.INTEGER },
             { name: 'questionId', type: lf.Type.INTEGER },
             { name: 'answer', type: lf.Type.INTEGER, isNullable: true },
-            { name: 'right', type: lf.Type.BOOLEAN, isNullable: true }
+            { name: 'right', type: lf.Type.BOOLEAN, isNullable: true },
+            { name: 'time', type: lf.Type.NUMBER }
         ],
         primaryKeys: [{column: 'id', isAutoIncrement: true}],
         foreignKeys: [

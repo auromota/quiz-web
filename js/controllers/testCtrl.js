@@ -8,11 +8,12 @@
 
     app.controller('testCtrl', testCtrl);
 
-    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', '$timeout', 'answerService', 'questionService', 'securityService'];
+    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', '$timeout', '$interval', 'answerService', 'questionService', 'securityService'];
 
-    function testCtrl($scope, $stateParams, $rootScope, $state, $timeout, answerService, questionService, securityService) {
+    function testCtrl($scope, $stateParams, $rootScope, $state, $timeout, $interval, answerService, questionService, securityService) {
 
         var user = securityService.getUser();
+        var time = 0;
 
         if(user.id) {
             loadQuestion();
@@ -32,6 +33,9 @@
                                 function(questions) {
                                     if(questions.length) {
                                         $scope.question = questions[0];
+                                        $interval(function() {
+                                            time++;
+                                        }, 1000);
                                     }
                                 }
                             )
@@ -44,6 +48,7 @@
         }
 
         $scope.submit = function() {
+            $scope.answer.time = angular.copy(time);
             $scope.hasAnswered = true;
             if(parseInt($scope.answer.answer) == $scope.question.rightAnswer) {
                 $scope.answer.right = true;

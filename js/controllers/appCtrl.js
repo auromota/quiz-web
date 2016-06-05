@@ -48,7 +48,7 @@
         function checkForIncompleteTests(tests) {
             var testId;
             tests.forEach(function(test) {
-                if(!test.isCompleted) {
+                if(!test.completedOn) {
                     testId = test.id;
                 }
             });
@@ -74,8 +74,7 @@
         function restartTest(testId) {
             $scope.test = {
                 id: testId,
-                userId: $scope.user.id,
-                isCompleted: false
+                userId: $scope.user.id
             }
             answerService.deleteByTestId($scope.test.id).then(
                 function() {
@@ -86,8 +85,7 @@
 
         function createNewTest() {
             $scope.test = {
-                userId: $scope.user.id,
-                isCompleted: false
+                userId: $scope.user.id
             }
             testService.add($scope.test).then(
                 function(test) {
@@ -126,7 +124,8 @@
                     positions.forEach(function(pos) {
                         var answer = {
                             testId: test.id,
-                            questionId: questions[pos].id
+                            questionId: questions[pos].id,
+                            time: 0
                         }
                         answers.push(answer);
                     })
@@ -144,19 +143,23 @@
 
         function pickAnotherQuestion() {
             var id;
-            $scope.answers.forEach(function(answer) {
-                if(answer.answer == null) {
-                    id = answer.id;
-                }
-            })
-            if(id) {
-                $state.go('test', {answerId: id});
-            } else {
-                testService.update({id: $scope.answers[0].testId, isCompleted: true}).then(
-                    function() {
-                        $state.go('testCompleted', {testId: $scope.answers[0].testId});
+            if($scope.answers.length) {
+                $scope.answers.forEach(function(answer) {
+                    if(answer.answer == null) {
+                        id = answer.id;
                     }
-                );
+                })
+                if(id) {
+                    $state.go('test', {answerId: id});
+                } else {
+                    testService.update({id: $scope.answers[0].testId, completedOn: new Date()}).then(
+                        function() {
+                            $state.go('testCompleted', {testId: $scope.answers[0].testId});
+                        }
+                    );
+                }
+            } else {
+                addRandomQuestionsToTest($scope.test);
             }
         }
     }
