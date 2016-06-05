@@ -20,7 +20,7 @@
 
         function save(user) {
             var deferred = $q.defer();
-            crudService.insertOrReplace(user, dbService.users).then(
+            crudService.insertOrReplace(user, 'users').then(
                 function(user) {
                     deferred.resolve(user);
                 }, function(err) {
@@ -32,7 +32,7 @@
 
         function getById(id) {
             var deferred = $q.defer();
-            crudService.find(id, dbService.users, 'id').then(
+            crudService.find(id, 'users', 'id').then(
                 function(user) {
                     deferred.resolve(user[0]);
                 }, function(err) {

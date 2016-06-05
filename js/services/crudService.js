@@ -25,9 +25,9 @@
         function insert(data, table) {
             var deferred = $q.defer();
             dbService.connect().then(function() {
-                var row = table.createRow(data);
+                var row = dbService[table].createRow(data);
                 dbService.db.insert()
-                    .into(table)
+                    .into(dbService[table])
                     .values([row])
                     .exec()
                     .then(function(response) {
@@ -35,6 +35,8 @@
                     }, function(err) {
                         deferred.reject(err);
                     })
+            }, function(err) {
+                deferred.reject(err);
             });
             return deferred.promise;
         }
@@ -42,9 +44,9 @@
         function insertOrReplace(data, table) {
             var deferred = $q.defer();
             dbService.connect().then(function() {
-                var row = table.createRow(data);
+                var row = dbService[table].createRow(data);
                 dbService.db.insertOrReplace()
-                    .into(table)
+                    .into(dbService[table])
                     .values([row])
                     .exec()
                     .then(function(response) {
@@ -52,6 +54,8 @@
                     }, function(err) {
                         deferred.reject(err);
                     })
+            }, function(err) {
+                deferred.reject(err);
             });
             return deferred.promise;
         }
@@ -60,8 +64,8 @@
             var deferred = $q.defer();
             dbService.connect().then(function() {
                 dbService.db.select()
-                    .from(table)
-                    .where(table[column].eq(value))
+                    .from(dbService[table])
+                    .where(dbService[table][column].eq(value))
                     .exec()
                     .then(function(results) {
                         if(angular.isDefined(results)) {
@@ -70,6 +74,8 @@
                             deferred.reject();
                         }
                     });
+            }, function(err) {
+                deferred.reject(err);
             });
             return deferred.promise;
         }
@@ -78,7 +84,7 @@
             var deferred = $q.defer();
             dbService.connect().then(function() {
                 dbService.db.select()
-                    .from(table)
+                    .from(dbService[table])
                     .exec()
                     .then(function(results) {
                         if(angular.isDefined(results)) {
@@ -87,6 +93,8 @@
                             deferred.reject();
                         }
                     });
+            }, function(err) {
+                deferred.reject(err);
             });
             return deferred.promise;
         }
@@ -95,14 +103,16 @@
             var deferred = $q.defer();
             dbService.connect().then(function() {
                 dbService.db.delete()
-                    .from(table)
-                    .where(table[column].eq(value))
+                    .from(dbService[table])
+                    .where(dbService[table][column].eq(value))
                     .exec()
                     .then(function(result) {
                         deferred.resolve(result);
                     }, function(err) {
                         deferred.reject(err);
                     })
+            }, function(err) {
+                deferred.reject(err);
             });
             return deferred.promise;
         }
@@ -110,20 +120,22 @@
         function update(id, data, table) {
             var deferred = $q.defer();
             dbService.connect().then(function() {
-                var query = dbService.db.update(table);
+                var query = dbService.db.update(dbService[table]);
                 var columns = Object.keys(data);
                 columns.forEach(function(column) {
-                    if(column != table.id.name_) {
-                        query = query.set(table[column], data[column]);
+                    if(column != dbService[table].id.name_) {
+                        query = query.set(dbService[table][column], data[column]);
                     }
                 });
-                query.where(table[table.id.name_].eq(id)).exec().then(
+                query.where(dbService[table][dbService[table].id.name_].eq(id)).exec().then(
                     function(result) {
                         deferred.resolve(result);
                     }, function(err) {
                         deferred.reject(err);
                     }
                 )
+            }, function(err) {
+                deferred.reject(err);
             });
             return deferred.promise;
         }

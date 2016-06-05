@@ -20,7 +20,7 @@
 
         function getAll() {
             var deferred = $q.defer();
-            crudService.findAll(dbService.questions).then(
+            crudService.findAll('questions').then(
                 function(questions) {
                     deferred.resolve(questions);
                 }, function(err) {
@@ -32,7 +32,7 @@
 
         function getById(id) {
             var deferred = $q.defer();
-            crudService.find(id, dbService.questions, 'id').then(
+            crudService.find(id, 'questions', 'id').then(
                 function(questions) {
                     deferred.resolve(questions);
                 }, function(err) {

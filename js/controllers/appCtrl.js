@@ -31,7 +31,8 @@
         function getUserTests() {
             testService.getByUserId($scope.user.id).then(
                 function(tests) {
-                    if(checkForIncompleteTests(tests)) {
+                    var testId = checkForIncompleteTests(tests);
+                    if(testId) {
                         if(confirm('Você já tem um teste em progresso. Deseja continuá-lo?')) {
                             loadTest(testId);
                         } else {

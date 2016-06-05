@@ -25,7 +25,7 @@
 
         function add(answer) {
             var deferred = $q.defer();
-            crudService.insert(answer, dbService.answers).then(
+            crudService.insert(answer, 'answers').then(
                 function(answer) {
                     deferred.resolve(answer);
                 }, function(err) {
@@ -49,7 +49,7 @@
                 })
                 tx.exec(queries);
                 if(answers.length) {
-                    crudService.find(answers[0].testId, dbService.answers, 'testId').then(
+                    crudService.find(answers[0].testId, 'answers', 'testId').then(
                         function(answers) {
                             deferred.resolve(answers);
                         }, function(err) {
@@ -67,7 +67,7 @@
 
         function update(answer) {
             var deferred = $q.defer();
-            crudService.update(answer.id, answer, dbService.answers).then(
+            crudService.update(answer.id, answer, 'answers').then(
                 function(answer) {
                     deferred.resolve(answer);
                 }, function(err) {
@@ -79,7 +79,7 @@
 
         function replace(answer) {
             var deferred = $q.defer();
-            crudService.insertOrReplace(answer, dbService.answers).then(
+            crudService.insertOrReplace(answer, 'answers').then(
                 function(answer) {
                     deferred.resolve(answer);
                 }, function(err) {
@@ -91,7 +91,7 @@
 
         function getByTestId(testId) {
             var deferred = $q.defer();
-            crudService.find(testId, dbService.answers, 'testId').then(
+            crudService.find(testId, 'answers', 'testId').then(
                 function(answers) {
                     deferred.resolve(answers);
                 }, function(err) {
@@ -103,7 +103,7 @@
 
         function deleteByTestId(testId) {
             var deferred = $q.defer();
-            crudService.remove(testId, dbService.answers, 'testId').then(
+            crudService.remove(testId, 'answers', 'testId').then(
                 function() {
                     deferred.resolve();
                 }, function(err) {
@@ -115,11 +115,11 @@
 
         function getById(id) {
             var deferred = $q.defer();
-            crudService.find(id, dbService.answers, 'id').then(
+            crudService.find(id, 'answers', 'id').then(
                 function(answers) {
                     deferred.resolve(answers);
                 }, function(err) {
-                    deferred.reject(answers);
+                    deferred.reject(err);
                 }
             );
             return deferred.promise;

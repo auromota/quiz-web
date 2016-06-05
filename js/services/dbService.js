@@ -12,10 +12,12 @@
 
     function dbService($http, $log, $q, $rootScope, TABLE) {
         var db = null;
+        var isReady = false;
         var tables = {};
         var tableNames = Object.keys(TABLE);
         var service = {
             db: db,
+            isReady: isReady,
             connect: connect,
             initDatabase: initDatabase
         };
@@ -37,17 +39,17 @@
                     isConnecting = true;
                     buildSchema()
                         .connect(connectionOptions)
-                        .then((
-                            function(database) {
-                                isConnecting = false;
-                                service.db = database;
-                                tableNames.forEach(function(tableName) {
-                                    service[tableName] = service.db.getSchema().table(tableName);
-                                });
-                                window.db = database;
-                                deferred.resolve();
-                            }
-                        ));
+                        .then(function(database) {
+                            isConnecting = false;
+                            service.db = database;
+                            tableNames.forEach(function(tableName) {
+                                service[tableName] = service.db.getSchema().table(tableName);
+                            });
+                            window.db = database;
+                            deferred.resolve();
+                        }, function(err) {
+                            deferred.reject(err);
+                        });
                 } else {
                     deferred.resolve();
                 }
@@ -94,14 +96,15 @@
 
         function initDatabase() {
             connect().then(function() {
-                $rootScope.$broadcast('dbConnected');
-                deleteExistingQuestions().then(
-                    function() {
-                        insertQuestions().then(
-                            function() {
-                                $rootScope.$broadcast('seedDataInserted');
-                            }
-                        )
+                checkForExistingQuestions().then(
+                    function(hasData) {
+                        if(!hasData) {
+                            insertQuestions().then(
+                                function() {
+                                    isReady = true;
+                                }
+                            )
+                        }
                     }
                 );
             })
@@ -122,13 +125,13 @@
             );
         }
 
-        function deleteExistingQuestions() {
+        function checkForExistingQuestions() {
             var deferred = $q.defer();
-            service.db.delete().
+            service.db.select().
                 from(service.questions).
                 exec().then(
-                    function() {
-                        deferred.resolve();
+                    function(data) {
+                        deferred.resolve(data.length > 0);
                     }
                 );
             return deferred.promise;

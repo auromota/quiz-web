@@ -8,9 +8,9 @@
 
     app.controller('testCtrl', testCtrl);
 
-    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', 'answerService', 'questionService', 'securityService'];
+    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', '$timeout', 'answerService', 'questionService', 'securityService'];
 
-    function testCtrl($scope, $stateParams, $rootScope, $state, answerService, questionService, securityService) {
+    function testCtrl($scope, $stateParams, $rootScope, $state, $timeout, answerService, questionService, securityService) {
 
         var user = securityService.getUser();
 
@@ -35,6 +35,10 @@
                             }
                         )
                     }
+                }, function(err) {
+                    $timeout(function() {
+                        loadQuestion();
+                    }, 100);
                 }
             )
         }
