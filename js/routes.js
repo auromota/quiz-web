@@ -28,14 +28,19 @@
                 controller: 'logsCtrl'
             })
             .state('test', {
-                url: '/test/:answerId',
+                url: '/test',
                 templateUrl: 'partials/_test.html',
-                controller: 'testCtrl'
+                controller: 'testCtrl',
+                params: {
+                    answerId: null
+                }
             })
             .state('testCompleted', {
-                url: '/testCompleted/:testId',
                 templateUrl: 'partials/_test-completed.html',
-                controller: 'testCompletedCtrl'
+                controller: 'testCompletedCtrl',
+                params: {
+                    testId: null
+                }
             });
 
     }

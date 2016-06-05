@@ -20,9 +20,9 @@
         });
 
         $scope.$on('questionAnswered', function(event, answer) {
-            $scope.answers.forEach(function(a) {
+            $scope.answers.forEach(function(a, i) {
                 if(a.id == answer.id) {
-                    a = angular.copy(answer);
+                    $scope.answers[i] = angular.copy(answer);
                 }
             });
             pickAnotherQuestion();

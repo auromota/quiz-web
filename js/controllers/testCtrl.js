@@ -23,24 +23,24 @@
         $scope.hasAnswered = false;
 
         function loadQuestion() {
-            answerService.getById(parseInt($stateParams.answerId)).then(
-                function(answers) {
-                    if(answers.length) {
-                        $scope.answer = answers[0];
-                        questionService.getById($scope.answer.questionId).then(
-                            function(questions) {
-                                if(questions.length) {
-                                    $scope.question = questions[0];
+            if($stateParams.answerId) {
+                answerService.getById(parseInt($stateParams.answerId)).then(
+                    function(answers) {
+                        if(answers.length) {
+                            $scope.answer = answers[0];
+                            questionService.getById($scope.answer.questionId).then(
+                                function(questions) {
+                                    if(questions.length) {
+                                        $scope.question = questions[0];
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
-                }, function(err) {
-                    $timeout(function() {
-                        loadQuestion();
-                    }, 100);
-                }
-            )
+                )
+            } else {
+                $state.go('home');
+            }
         }
 
         $scope.submit = function() {

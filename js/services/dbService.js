@@ -30,33 +30,27 @@
 
         function connect() {
             var deferred = $q.defer();
-
-            if(isConnecting === false) {
-                var connectionOptions = {
-                    storeType: lf.schema.DataStoreType.INDEXED_DB
-                };
-                if(service.db === null) {
-                    isConnecting = true;
-                    buildSchema()
-                        .connect(connectionOptions)
-                        .then((
-                            function(database) {
-                                isConnecting = false;
-                                service.db = database;
-                                for(key in TABLE) {
-                                    service[key] = service.db.getSchema().table(key);
-                                }
-                                window.db = database;
-                                deferred.resolve();
-                            }, function(err) {
-                                deferred.reject(err);
+            var connectionOptions = {
+                storeType: lf.schema.DataStoreType.INDEXED_DB
+            };
+            if(service.db === null) {
+                isConnecting = true;
+                buildSchema()
+                    .connect(connectionOptions).then(
+                        function(database) {
+                            isConnecting = false;
+                            service.db = database;
+                            for(key in TABLE) {
+                                service[key] = service.db.getSchema().table(key);
                             }
-                        ));
-                } else {
-                    deferred.resolve();
-                }
+                            window.db = database;
+                            deferred.resolve();
+                        }, function(err) {
+                            deferred.reject(err);
+                        }
+                    );
             } else {
-                deferred.reject('Still connecting to the database');
+                deferred.resolve();
             }
             return deferred.promise;
         }
