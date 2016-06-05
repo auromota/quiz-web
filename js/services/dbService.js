@@ -50,7 +50,7 @@
                                 deferred.resolve();
                             }, function(err) {
                                 deferred.reject(err);
-                            });
+                            }
                         ));
                 } else {
                     deferred.resolve();
