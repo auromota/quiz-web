@@ -1,4 +1,7 @@
 /*
-    Author: Auro Mota <auro@blueorc.com>
-    (c) 2016 BlueOrc http://blueorc.com/
+    Author: Fabiano Lomonaco <fabiano.lomonaco.junior@gmail.com>
 */
+
+.jumbotron-btns a:nth-child(2) {
+    margin-left: 10px;
+}
