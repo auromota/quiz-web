@@ -7,9 +7,14 @@
     <head>
         <title>Quiz</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="css/stylesheet.css">
+        <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css" media="screen">
     </head>
     <body ng-app="app" ng-controller="appCtrl">
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="node_modules/angular/angular.min.js"></script>
         <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script src="node_modules/lovefield/dist/lovefield.js"></script>
@@ -29,6 +34,6 @@
         <script src="js/controllers/testCtrl.js"></script>
         <script src="js/controllers/testCompletedCtrl.js"></script>
         <script src="js/routes.js"></script>
-        <div ui-view></div>
+        <div ui-view class="container"></div>
     </body>
 </hmtl>
