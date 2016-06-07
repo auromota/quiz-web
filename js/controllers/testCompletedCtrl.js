@@ -33,6 +33,13 @@
                             $scope.rightCount++;
                         }
                     });
+                    if($scope.total) {
+                        var percentage = {
+                            rightPercentage: (100*$scope.rightCount)/$scope.total,
+                            wrongPercentage: (100*($scope.total-$scope.rightCount))/$scope.total
+                        }
+                        $scope.$emit('percentageReady', percentage);
+                    }
                 }
             )
         }
