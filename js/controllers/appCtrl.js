@@ -151,7 +151,20 @@
                 if(id) {
                     $state.go('test', {answerId: id});
                 } else {
-                    testService.update({id: $scope.answers[0].testId, completedOn: new Date()}).then(
+                    var rightCount = 0;
+                    $scope.answers.forEach(function(answer) {
+                        if(answer.right) {
+                            rightCount++;
+                        }
+                    });
+                    var percentage = 100*rightCount/$scope.answers.length;
+                    testService.update({
+                        id: $scope.answers[0].testId,
+                        completedOn: new Date(),
+                        percentage: percentage,
+                        total: $scope.answers.length,
+                        right: rightCount
+                    }).then(
                         function() {
                             $state.go('testCompleted', {testId: $scope.answers[0].testId});
                         }

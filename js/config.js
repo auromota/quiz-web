@@ -30,7 +30,10 @@
         columns: [
             { name: 'id', type: lf.Type.INTEGER },
             { name: 'userId', type: lf.Type.STRING },
-            { name: 'completedOn', type: lf.Type.DATE_TIME, isNullable: true }
+            { name: 'completedOn', type: lf.Type.DATE_TIME, isNullable: true },
+            { name: 'percentage', type: lf.Type.NUMBER, isNullable: true },
+            { name: 'total', type: lf.Type.NUMBER, isNullable: true },
+            { name: 'right', type: lf.Type.NUMBER, isNullable: true }
         ],
         primaryKeys: [{ column: 'id', isAutoIncrement: true }],
         foreignKeys: [{ name: 'fkUserId', column: 'userId', ref: 'users.id', action: lf.ConstraintAction.CASCADE }]

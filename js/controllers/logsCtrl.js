@@ -7,10 +7,15 @@
 
     app.controller('logsCtrl', logsCtrl);
 
-    logsCtrl.$inject = ['$scope'];
+    logsCtrl.$inject = ['$scope', '$state', 'testService'];
 
-    function logsCtrl($scope) {
+    function logsCtrl($scope, $state, testService) {
 
+        testService.getAllTestsAndUsers().then(function(tests) {
+            $scope.tests = tests;
+        }, function(err) {
+            $state.go('home');
+        });
     }
 
 })();

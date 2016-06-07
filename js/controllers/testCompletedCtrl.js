@@ -7,9 +7,9 @@
 
     app.controller('testCompletedCtrl', testCompletedCtrl);
 
-    testCompletedCtrl.$inject = ['$scope', '$stateParams', '$state', 'answerService', 'securityService'];
+    testCompletedCtrl.$inject = ['$scope', '$stateParams', '$state', 'testService', 'securityService'];
 
-    function testCompletedCtrl($scope, $stateParams, $state, answerService, securityService) {
+    function testCompletedCtrl($scope, $stateParams, $state, testService, securityService) {
         var user = securityService.getUser();
 
         if(user.id) {
@@ -18,28 +18,16 @@
             $state.go('home');
         }
 
-        $scope.answers = {};
-        $scope.total = null;
-        $scope.rightCount = null;
-
         function loadTest(id) {
-            answerService.getByTestId(id).then(
-                function(answers) {
-                    $scope.answers = answers;
-                    $scope.total = $scope.answers.length;
-                    $scope.rightCount = 0;
-                    $scope.answers.forEach(function(answer) {
-                        if(answer.right) {
-                            $scope.rightCount++;
-                        }
-                    });
-                    if($scope.total) {
-                        var percentage = {
-                            rightPercentage: (100*$scope.rightCount)/$scope.total,
-                            wrongPercentage: (100*($scope.total-$scope.rightCount))/$scope.total
-                        }
-                        $scope.$emit('percentageReady', percentage);
+            testService.getById(id).then(
+                function(test) {
+                    var percentage = {
+                        rightPercentage: test.percentage,
+                        wrongPercentage: 100-test.percentage
                     }
+                    $scope.rightCount = test.right;
+                    $scope.total = test.total;
+                    $scope.$emit('percentageReady', percentage);
                 }
             )
         }

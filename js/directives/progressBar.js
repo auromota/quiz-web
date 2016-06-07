@@ -5,11 +5,11 @@
 (function() {
 	'use strict';
 
-	app.directive('progressBar', progressBar);
+	app.directive('wqProgressBar', wqProgressBar);
 
-	progressBar.$inject = ['$document'];
+	wqProgressBar.$inject = [];
 
-	function progressBar($document) {
+	function wqProgressBar() {
 
 		function link(scope, element, attrs) {
 			var percentage;

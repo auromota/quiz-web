@@ -20,17 +20,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>10</td>
-                <td>Auro</td>
-                <td>80%</td>
-                <td>06/06/2016</td>
-            </tr>
-            <tr>
-                <td>20</td>
-                <td>Fabiano</td>
-                <td>82%</td>
-                <td>06/06/2016</td>
+            <tr ng-repeat="test in tests">
+                <td>{{test.users.id}}</td>
+                <td>{{test.users.name}}</td>
+                <td>{{test.tests.percentage | number: 0}}%</td>
+                <td>{{test.tests.completedOn | date: 'dd/MM/yyyy - HH:mm'}}</td>
             </tr>
         </tbody>
     </table>

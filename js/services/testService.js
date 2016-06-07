@@ -14,7 +14,8 @@
             getByUserId: getByUserId,
             add: add,
             update: update,
-            getById: getById
+            getById: getById,
+            getAllTestsAndUsers: getAllTestsAndUsers
         }
 
         return service;
@@ -59,11 +60,30 @@
             var deferred = $q.defer();
             crudService.find(id, 'tests', 'id').then(
                 function(tests) {
-                    deferred.resolve(tests);
+                    deferred.resolve(tests[0]);
                 }, function(err) {
                     deferred.reject(err);
                 }
             );
+            return deferred.promise;
+        }
+
+        function getAllTestsAndUsers() {
+            var deferred = $q.defer();
+            try {
+                dbService.db.select()
+                    .from(dbService.tests)
+                    .innerJoin(dbService.users, dbService.tests.userId.eq(dbService.users.id))
+                    .exec().then(
+                        function(tests) {
+                            deferred.resolve(tests);
+                        }, function(err) {
+                            deferred.reject(err);
+                        }
+                    );
+            } catch (err) {
+                deferred.reject(err);
+            }
             return deferred.promise;
         }
     }
