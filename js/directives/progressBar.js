@@ -21,11 +21,11 @@
 			}
 
 			scope.$on('percentageReady', function(e, value) {
-				if(attrs.progressBar === "wrong") {
+				if(attrs.wqProgressBar === "wrong") {
 					percentage = value.wrongPercentage;
 					update();
 				}
-				if(attrs.progressBar === "right") {
+				if(attrs.wqProgressBar === "right") {
 					percentage = value.rightPercentage;
 					update();
 				}
