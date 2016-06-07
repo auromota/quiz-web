@@ -56,9 +56,9 @@
 
         function loadTest(testId) {
             testService.getById(testId).then(
-                function(tests) {
-                    if(tests.length) {
-                        $scope.test = angular.copy(tests[0]);
+                function(test) {
+                    if(test) {
+                        $scope.test = angular.copy(test);
                         answerService.getByTestId($scope.test.id).then(
                             function(answers) {
                                 $scope.answers = angular.copy(answers);
@@ -131,13 +131,26 @@
                     answerService.addAll(answers).then(
                         function(answers) {
                             $scope.answers = answers;
-                            $state.go('test', {answerId: answers[0].id});
-                        }, function(err) {
-                            console.log(err);
+                            testService.update({
+                                id: test.id,
+                                total: $scope.answers.length
+                            }).then(function(test) {
+                                goToQuestion(answers[0].id);
+                            })
                         }
                     );
                 }
             )
+        }
+
+        function goToQuestion(answerId) {
+            var answeredCount = 0;
+            $scope.answers.forEach(function(answer) {
+                if(answer.answer) {
+                    answeredCount++;
+                }
+            })
+            $state.go('test', {answerId: answerId, answered: answeredCount, total: $scope.answers.length});
         }
 
         function pickAnotherQuestion() {
@@ -149,7 +162,7 @@
                     }
                 })
                 if(id) {
-                    $state.go('test', {answerId: id});
+                    goToQuestion(id);
                 } else {
                     var rightCount = 0;
                     $scope.answers.forEach(function(answer) {
@@ -162,7 +175,6 @@
                         id: $scope.answers[0].testId,
                         completedOn: new Date(),
                         percentage: percentage,
-                        total: $scope.answers.length,
                         right: rightCount
                     }).then(
                         function() {

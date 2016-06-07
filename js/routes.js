@@ -31,7 +31,9 @@
                 templateUrl: 'partials/_test.html',
                 controller: 'testCtrl',
                 params: {
-                    answerId: null
+                    answerId: null,
+                    answered: 0,
+                    total: 1
                 }
             })
             .state('testCompleted', {

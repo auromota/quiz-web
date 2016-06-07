@@ -21,13 +21,9 @@
         function loadTest(id) {
             testService.getById(id).then(
                 function(test) {
-                    var percentage = {
-                        rightPercentage: test.percentage,
-                        wrongPercentage: 100-test.percentage
-                    }
                     $scope.rightCount = test.right;
                     $scope.total = test.total;
-                    $scope.$emit('percentageReady', percentage);
+                    $scope.$emit('percentageReady', test.percentage);
                 }
             )
         }

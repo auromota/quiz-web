@@ -32,6 +32,8 @@
                                 function(questions) {
                                     if(questions.length) {
                                         $scope.question = questions[0];
+                                        var percentage = (100*$state.params.answered)/$state.params.total;
+                                        $scope.$emit('percentageReady', percentage);
                                         $interval(function() {
                                             time++;
                                         }, 1000);
