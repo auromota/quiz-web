@@ -16,7 +16,8 @@
             update: update,
             getById: getById,
             getAllTestsAndUsers: getAllTestsAndUsers,
-            getTestAndUser: getTestAndUser
+            getTestAndUser: getTestAndUser,
+            removeAll: removeAll
         }
 
         return service;
@@ -101,6 +102,18 @@
                         deferred.reject(err);
                     }
                 );
+            return deferred.promise;
+        }
+
+        function removeAll() {
+            var deferred = $q.defer();
+            crudService.removeAll('tests').then(
+                function(result) {
+                    deferred.resolve(result);
+                }, function(err) {
+                    deferred.reject(err);
+                }
+            );
             return deferred.promise;
         }
     }

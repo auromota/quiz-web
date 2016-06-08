@@ -16,7 +16,8 @@
             insertOrReplace: insertOrReplace,
             findAll: findAll,
             remove: remove,
-            update: update
+            update: update,
+            removeAll: removeAll
         }
 
         return service;
@@ -109,7 +110,24 @@
                         deferred.resolve(result);
                     }, function(err) {
                         deferred.reject(err);
-                    })
+                    });
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        }
+
+        function removeAll(table) {
+            var deferred = $q.defer();
+            dbService.connect().then(function() {
+                dbService.db.delete()
+                    .from(dbService[table])
+                    .exec()
+                    .then(function(result) {
+                        deferred.resolve(result);
+                    }, function(err) {
+                        deferred.reject(err);
+                    });
             }, function(err) {
                 deferred.reject(err);
             });

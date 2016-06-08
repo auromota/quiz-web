@@ -11,15 +11,19 @@
 
     function logsCtrl($scope, $state, testService) {
 
-        testService.getAllTestsAndUsers().then(function(tests) {
-            $scope.tests = tests;
-        }, function(err) {
-            $state.go('home');
-        });
+        function loadTests() {
+            testService.getAllTestsAndUsers().then(function(tests) {
+                $scope.tests = tests;
+            }, function(err) {
+                $state.go('home');
+            });
+        }
+
+        loadTests();
 
         $scope.clear = function() {
             if(confirm('Deseja apagar todos os registros?')) {
-                indexedDB.deleteDatabase('database');
+                testService.removeAll().then(loadTests);
             }
         }
 
