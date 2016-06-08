@@ -16,6 +16,13 @@
         }, function(err) {
             $state.go('home');
         });
+
+        $scope.clear = function() {
+            if(confirm('Deseja apagar todos os registros?')) {
+                indexedDB.deleteDatabase('database');
+            }
+        }
+
     }
 
 })();
