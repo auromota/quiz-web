@@ -28,20 +28,20 @@
         });
 
         function getUserTests() {
-            testService.getByUserId($scope.user.id).then(
-                function(tests) {
-                    var testId = checkForIncompleteTests(tests);
-                    if(testId) {
-                        if(confirm('Você já tem um teste em progresso. Deseja continuá-lo?')) {
-                            loadTest(testId);
-                        } else {
-                            restartTest(testId);
-                        }
-                    } else {
-                        createNewTest();
-                    }
+            testService.getByUserId($scope.user.id).then(checkTests);
+        }
+
+        function checkTests(tests) {
+            var testId = checkForIncompleteTests(tests);
+            if(testId) {
+                if(confirm('Você já tem um teste em progresso. Deseja continuá-lo?')) {
+                    loadTest(testId);
+                } else {
+                    restartTest(testId);
                 }
-            )
+            } else {
+                createNewTest();
+            }
         }
 
         function checkForIncompleteTests(tests) {
@@ -55,31 +55,27 @@
         }
 
         function loadTest(testId) {
-            testService.getById(testId).then(
-                function(test) {
-                    if(test) {
-                        $scope.test = angular.copy(test);
-                        answerService.getByTestId($scope.test.id).then(
-                            function(answers) {
-                                $scope.answers = angular.copy(answers);
-                                pickAnotherQuestion();
-                            }
-                        )
-                    }
-                }
-            )
+            testService.getById(testId).then(loadAnswers);
+        }
+
+        function loadAnswers(test) {
+            if(test) {
+                $scope.test = angular.copy(test);
+                answerService.getByTestId(test.id).then(goToAnswers);
+            }
+        }
+
+        function goToAnswers(answers) {
+            $scope.answers = angular.copy(answers);
+            pickAnotherQuestion();
         }
 
         function restartTest(testId) {
             $scope.test = {
                 id: testId,
                 userId: $scope.user.id
-            }
-            answerService.deleteByTestId($scope.test.id).then(
-                function() {
-                    addRandomQuestionsToTest($scope.test);
-                }
-            )
+            };
+            answerService.deleteByTestId(testId).then(addRandomQuestionsToTest);
         }
 
         function createNewTest() {
@@ -89,7 +85,7 @@
             testService.add($scope.test).then(
                 function(test) {
                     $scope.test = angular.copy(test);
-                    addRandomQuestionsToTest($scope.test);
+                    addRandomQuestionsToTest();
                 }
             )
         }
@@ -115,14 +111,14 @@
             return array;
         }
 
-        function addRandomQuestionsToTest(test) {
+        function addRandomQuestionsToTest() {
             questionService.getAll().then(
                 function(questions) {
                     var positions = generateRandomArray(questions.length);
                     var answers = [];
                     positions.forEach(function(pos) {
                         var answer = {
-                            testId: test.id,
+                            testId: $scope.test.id,
                             questionId: questions[pos].id,
                             time: 0
                         }
@@ -132,7 +128,7 @@
                         function(answers) {
                             $scope.answers = answers;
                             testService.update({
-                                id: test.id,
+                                id: $scope.test.id,
                                 total: $scope.answers.length
                             }).then(function(test) {
                                 goToQuestion(answers[0].id);
@@ -183,7 +179,7 @@
                     );
                 }
             } else {
-                addRandomQuestionsToTest($scope.test);
+                addRandomQuestionsToTest();
             }
         }
     }
