@@ -24,6 +24,7 @@
                 <th><center>Nome</center></th>
                 <th><center>Porcentagem de acerto</center></th>
                 <th><center>Feito em</center></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
                 <td>{{test.users.name}}</td>
                 <td>{{test.tests.percentage | number: 0}}%</td>
                 <td>{{test.tests.completedOn | date: 'dd/MM/yyyy - HH:mm'}}</td>
+                <td ng-click="details(test.tests.id)">Detalhes</td>
             </tr>
         </tbody>
     </table>

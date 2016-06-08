@@ -170,7 +170,7 @@
                             rightCount++;
                         }
                     });
-                    var percentage = 100*rightCount/$scope.answers.length;
+                    var percentage = wqUtil.getPercetange(rightCount, $scope.answers.length);
                     testService.update({
                         id: $scope.answers[0].testId,
                         completedOn: new Date(),

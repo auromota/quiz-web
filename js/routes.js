@@ -42,6 +42,13 @@
                 params: {
                     testId: null
                 }
+            })
+            .state('testDetails', {
+                templateUrl: 'partials/_test-details.html',
+                controller: 'testDetailsCtrl',
+                params: {
+                    testId: null
+                }
             });
 
     }

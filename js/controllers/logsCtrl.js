@@ -23,6 +23,10 @@
             }
         }
 
+        $scope.details = function(id) {
+            $state.go('testDetails', {testId: id});
+        }
+
     }
 
 })();

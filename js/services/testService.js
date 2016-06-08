@@ -15,7 +15,8 @@
             add: add,
             update: update,
             getById: getById,
-            getAllTestsAndUsers: getAllTestsAndUsers
+            getAllTestsAndUsers: getAllTestsAndUsers,
+            getTestAndUser: getTestAndUser
         }
 
         return service;
@@ -74,6 +75,7 @@
                 dbService.db.select()
                     .from(dbService.tests)
                     .innerJoin(dbService.users, dbService.tests.userId.eq(dbService.users.id))
+                    .where(dbService.tests.completedOn.isNotNull())
                     .exec().then(
                         function(tests) {
                             deferred.resolve(tests);
@@ -84,6 +86,21 @@
             } catch (err) {
                 deferred.reject(err);
             }
+            return deferred.promise;
+        }
+
+        function getTestAndUser(id) {
+            var deferred = $q.defer();
+            dbService.db.select()
+                .from(dbService.tests)
+                .innerJoin(dbService.users, dbService.tests.userId.eq(dbService.users.id))
+                .exec().then(
+                    function(test) {
+                        deferred.resolve(test[0]);
+                    }, function(err) {
+                        deferred.reject(err);
+                    }
+                );
             return deferred.promise;
         }
     }
