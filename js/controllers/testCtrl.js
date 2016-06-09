@@ -58,6 +58,7 @@
         }
 
         function checkAnswer() {
+            if(!$scope.answer.answer) return null;
             var answer = parseInt($scope.answer.answer);
             if(answer === $scope.question.rightAnswer) {
                 return true;
@@ -66,13 +67,16 @@
         }
 
         $scope.submit = function() {
-            $scope.hasAnswered = true;
-            getTime();
-            $scope.answer.right = checkAnswer();
-            answerService.update($scope.answer).then(showMessage);
+            var answer = checkAnswer();
+            if(answer !== null) {
+                $scope.hasAnswered = true;
+                getTime();
+                $scope.answer.right = checkAnswer();
+                answerService.update($scope.answer).then(showResult);
+            }
         }
 
-        function showMessage() {
+        function showResult() {
             var params = {};
             if($scope.answer.right) {
                 params.title = 'Parabéns!';
