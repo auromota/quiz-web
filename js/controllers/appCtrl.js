@@ -124,19 +124,20 @@
                         }
                         answers.push(answer);
                     })
-                    answerService.addAll(answers).then(
-                        function(answers) {
-                            $scope.answers = answers;
-                            testService.update({
-                                id: $scope.test.id,
-                                total: $scope.answers.length
-                            }).then(function(test) {
-                                goToQuestion(answers[0].id);
-                            })
-                        }
-                    );
+                    answerService.addAll(answers).then(initializeTest);
                 }
             )
+        }
+
+        function initializeTest(answers) {
+            $scope.answers = answers;
+            var test = {
+                id: $scope.test.id,
+                total: $scope.answers.length
+            };
+            testService.update(test).then(function() {
+                goToQuestion(answers[0].id);
+            });
         }
 
         function goToQuestion(answerId) {
@@ -146,7 +147,12 @@
                     answeredCount++;
                 }
             })
-            $state.go('test', {answerId: answerId, answered: answeredCount, total: $scope.answers.length});
+            var params = {
+                answerId: answerId,
+                answered: answeredCount,
+                total: $scope.answers.length
+            };
+            $state.go('test', params);
         }
 
         function pickAnotherQuestion() {
@@ -156,32 +162,43 @@
                     if(answer.answer == null) {
                         id = answer.id;
                     }
-                })
+                });
                 if(id) {
                     goToQuestion(id);
                 } else {
-                    var rightCount = 0;
-                    $scope.answers.forEach(function(answer) {
-                        if(answer.right) {
-                            rightCount++;
-                        }
-                    });
-                    var percentage = wqUtil.getPercetange(rightCount, $scope.answers.length);
-                    testService.update({
-                        id: $scope.answers[0].testId,
-                        completedOn: new Date(),
-                        percentage: percentage,
-                        right: rightCount
-                    }).then(
-                        function() {
-                            $state.go('testCompleted', {testId: $scope.answers[0].testId});
-                        }
-                    );
+                    endTest();
                 }
             } else {
                 addRandomQuestionsToTest();
             }
         }
+
+        function countRightAnswers() {
+            var rightCount = 0;
+            $scope.answers.forEach(function(answer) {
+                if(answer.right) {
+                    rightCount++;
+                }
+            });
+            return rightCount;
+        }
+
+        function endTest() {
+            var rightCount = countRightAnswers();
+            var percentage = wqUtil.getPercetange(rightCount, $scope.answers.length);
+            var test = {
+                id: $scope.answers[0].testId,
+                completedOn: new Date(),
+                percentage: percentage,
+                right: rightCount
+            };
+            testService.update(test).then(goToTestCompleted);
+        }
+
+        function goToTestCompleted() {
+            $state.go('testCompleted', {testId: $scope.test.id});
+        }
+
     }
 
 })();
