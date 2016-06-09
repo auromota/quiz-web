@@ -7,65 +7,89 @@
 
     app.controller('testCtrl', testCtrl);
 
-    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', '$timeout', '$interval', 'answerService', 'questionService', 'securityService'];
+    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', '$timeout', '$interval', 'SweetAlert', 'answerService', 'questionService', 'securityService'];
 
-    function testCtrl($scope, $stateParams, $rootScope, $state, $timeout, $interval, answerService, questionService, securityService) {
+    function testCtrl($scope, $stateParams, $rootScope, $state, $timeout, $interval, SweetAlert, answerService, questionService, securityService) {
 
         var user = securityService.getUser();
         var time = 0;
 
         if(user.id) {
-            loadQuestion();
+            loadAnswers();
         } else {
             $state.go('home');
         }
 
         $scope.hasAnswered = false;
 
-        function loadQuestion() {
+        function loadAnswers() {
             if($stateParams.answerId) {
-                answerService.getById(parseInt($stateParams.answerId)).then(
-                    function(answers) {
-                        if(answers.length) {
-                            $scope.answer = answers[0];
-                            questionService.getById($scope.answer.questionId).then(
-                                function(questions) {
-                                    if(questions.length) {
-                                        $scope.question = questions[0];
-                                        var percentage = (100*$state.params.answered)/$state.params.total;
-                                        $scope.$emit('percentageReady', percentage);
-                                        $interval(function() {
-                                            time++;
-                                        }, 1000);
-                                    }
-                                }
-                            )
-                        }
-                    }
-                )
+                var id = parseInt($stateParams.answerId);
+                answerService.getById(id).then(loadQuestion);
             } else {
                 $state.go('home');
             }
         }
 
-        $scope.submit = function() {
-            $scope.answer.time = angular.copy(time);
-            $scope.hasAnswered = true;
-            if(parseInt($scope.answer.answer) == $scope.question.rightAnswer) {
-                $scope.answer.right = true;
-            } else {
-                $scope.answer.right = false;
+        function loadQuestion(answers) {
+            if(answers.length) {
+                $scope.answer = answers[0];
+                questionService.getById($scope.answer.questionId).then(updateProgressBar);
             }
-            answerService.update($scope.answer).then(
-                function() {
-                    if($scope.answer.right) {
-                        alert('Você acertou!');
-                    } else {
-                        alert('Você errou!');
-                    }
-                    $rootScope.$broadcast('questionAnswered', $scope.answer);
-                }
-            );
+        }
+
+        function updateProgressBar(questions) {
+            if(questions.length) {
+                $scope.question = questions[0];
+                var percentage = wqUtil.getPercetange($state.params.answered, $state.params.total);
+                $scope.$emit('percentageReady', percentage);
+                startTimeCounter();
+            }
+        }
+
+        function startTimeCounter() {
+            $interval(function() {
+                time++;
+            }, 1000);
+        }
+
+        function getTime() {
+            $scope.answer.time = angular.copy(time);
+        }
+
+        function checkAnswer() {
+            var answer = parseInt($scope.answer.answer);
+            if(answer === $scope.question.rightAnswer) {
+                return true;
+            }
+            return false;
+        }
+
+        $scope.submit = function() {
+            $scope.hasAnswered = true;
+            getTime();
+            $scope.answer.right = checkAnswer();
+            answerService.update($scope.answer).then(showMessage);
+        }
+
+        function showMessage() {
+            var params = {};
+            if($scope.answer.right) {
+                params.title = 'Parabéns!';
+                params.text = 'Você acertou a questão.';
+                params.type = 'success';
+                params.confirmButtonColor = '#2c3e50';
+            } else {
+                params.title = 'Que pena!';
+                params.text = 'Você errou a questão.';
+                params.type = 'error';
+                params.confirmButtonColor = '#2c3e50';
+            }
+            SweetAlert.swal(params, doBroadcast);
+        }
+
+        function doBroadcast() {
+            $rootScope.$broadcast('questionAnswered', $scope.answer);
         }
     }
 

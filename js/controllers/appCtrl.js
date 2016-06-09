@@ -7,9 +7,9 @@
 
     app.controller('appCtrl', appCtrl);
 
-    appCtrl.$inject = ['$scope', '$state', 'testService', 'answerService', 'questionService'];
+    appCtrl.$inject = ['$scope', '$state', 'SweetAlert', 'testService', 'answerService', 'questionService'];
 
-    function appCtrl($scope, $state, testService, answerService, questionService) {
+    function appCtrl($scope, $state, SweetAlert, testService, answerService, questionService) {
         $scope.user = {};
         $scope.test = {};
 
@@ -31,17 +31,43 @@
             testService.getByUserId($scope.user.id).then(checkTests);
         }
 
-        function checkTests(tests) {
-            var testId = checkForIncompleteTests(tests);
-            if(testId) {
-                if(confirm('Você já tem um teste em progresso. Deseja continuá-lo?')) {
+        function continueTest(testId) {
+            var params = {
+                title: 'Teste em progresso!',
+                text: 'Você já tem um teste em progresso. Deseja continuá-lo?',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Novo teste',
+                confirmButtonText: 'Continuar',
+                confirmButtonColor: '#2c3e50'
+            };
+            SweetAlert.swal(params, function(isConfirm) {
+                if(isConfirm) {
                     loadTest(testId);
                 } else {
                     restartTest(testId);
                 }
+            });
+        }
+
+        function checkTests(tests) {
+            var testId = checkForIncompleteTests(tests);
+            if(testId) {
+                continueTest(testId);
             } else {
-                createNewTest();
+                showNewTest();
             }
+        }
+
+        function showNewTest() {
+            var params = {
+                title: 'Boa sorte!',
+                text: 'Vamos lá, mostre o seu melhor! ;)',
+                imageUrl: './img/luck.png',
+                confirmButtonText: 'Partiu',
+                confirmButtonColor: '#2c3e50'
+            }
+            SweetAlert.swal(params, createNewTest);
         }
 
         function checkForIncompleteTests(tests) {
