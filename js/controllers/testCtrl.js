@@ -49,8 +49,8 @@
 
         function startTimeCounter() {
             $interval(function() {
-                time++;
-            }, 1000);
+                time+=0.001;
+            }, 1);
         }
 
         function getTime() {

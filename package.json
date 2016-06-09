@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "angular": "^1.5.5",
+    "angular-google-chart": "^0.1.0",
     "angular-sweetalert": "^1.1.0",
     "angular-ui-router": "^0.3.0",
     "bootstrap": "^3.3.6",
