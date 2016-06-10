@@ -92,16 +92,21 @@
 
         function getTestAndUser(id) {
             var deferred = $q.defer();
-            dbService.db.select()
-                .from(dbService.tests)
-                .innerJoin(dbService.users, dbService.tests.userId.eq(dbService.users.id))
-                .exec().then(
-                    function(test) {
-                        deferred.resolve(test[0]);
-                    }, function(err) {
-                        deferred.reject(err);
-                    }
-                );
+            try {
+                dbService.db.select()
+                    .from(dbService.tests)
+                    .innerJoin(dbService.users, dbService.tests.userId.eq(dbService.users.id))
+                    .where(dbService.tests.id.eq(id))
+                    .exec().then(
+                        function(test) {
+                            deferred.resolve(test[0]);
+                        }, function(err) {
+                            deferred.reject(err);
+                        }
+                    );
+            } catch (err) {
+                deferred.reject(err);
+            }
             return deferred.promise;
         }
 

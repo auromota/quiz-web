@@ -44,11 +44,9 @@
                 }
             })
             .state('testDetails', {
+                url: '/logs/:testId',
                 templateUrl: 'partials/_test-details.html',
                 controller: 'testDetailsCtrl',
-                params: {
-                    testId: null
-                }
             });
 
     }

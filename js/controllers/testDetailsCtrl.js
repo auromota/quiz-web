@@ -12,12 +12,18 @@
     function testDetailsCtrl($scope, $state, testService, answerService, questionService) {
 
         $scope.data = {};
-        $scope.testChart = {
-            type: 'LineChart'
+
+        $scope.questionTimeChart = {
+            type: 'ColumnChart',
+            displayed: false
         };
 
         function loadTest(id) {
-            testService.getTestAndUser(id).then(loadAnswers);
+            testService.getTestAndUser(id).then(loadAnswers, redirect);
+        }
+
+        function redirect() {
+            $state.go('home');
         }
 
         function loadAnswers(data) {
@@ -29,7 +35,22 @@
         function loadQuestions(answers) {
             $scope.data.answers = answers;
             $scope.data.answers.forEach(loadQuestion);
-            loadChart();
+            loadData();
+        }
+
+        function loadData() {
+            loadQuestionTimeChart();
+            calculateTotalTime();
+        }
+
+        function calculateTotalTime() {
+            var time = 0;
+            $scope.data.answers.forEach(sum);
+            $scope.totalTime = time;
+
+            function sum(answer) {
+                time += answer.time;
+            }
         }
 
         function loadQuestion(answer) {
@@ -40,12 +61,12 @@
             });
         }
 
-        function getChartRows() {
+        function getQuestionTimeChartRows() {
             var rows = [];
             $scope.data.answers.forEach(function(answer) {
                 var row = {
                     c: [
-                        {v: 'Questão ' + answer.questionId},
+                        {v: 'Questão ' + answer.order},
                         {v: answer.time}
                     ]
                 };
@@ -55,26 +76,26 @@
         }
 
 
-        function loadChart() {
+        function loadQuestionTimeChart() {
             var data = {
                 cols: [
                     {id: 'question', label: 'Questão', type: 'string'},
                     {id: 'time', label: 'Tempo', type: 'number'}
                 ],
-                rows: getChartRows()
+                rows: getQuestionTimeChartRows()
             }
-            $scope.testChart.data = data;
-            $scope.testChart.options = {
-                'title': 'Duração das questões',
-                'colors': ['#2c3e50'],
-                'vAxis': {
-                    'title': 'Tempo',
-                    'gridlines': {
-                        'count': 10
+            $scope.questionTimeChart.data = data;
+            $scope.questionTimeChart.options = {
+                title: 'Duração por questão',
+                colors: ['#2c3e50'],
+                vAxis: {
+                    title: 'Tempo',
+                    gridlines: {
+                        count: 10
                     }
                 },
-                'hAxis': {
-                    'title': 'Questão'
+                hAxis: {
+                    title: 'Questão'
                 }
             }
         }

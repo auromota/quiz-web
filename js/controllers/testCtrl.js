@@ -7,9 +7,9 @@
 
     app.controller('testCtrl', testCtrl);
 
-    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', '$timeout', '$interval', 'SweetAlert', 'answerService', 'questionService', 'securityService'];
+    testCtrl.$inject = ['$scope', '$stateParams', '$rootScope', '$state', '$timeout', '$interval', 'SweetAlert', 'answerService', 'questionService', 'securityService', 'utilService'];
 
-    function testCtrl($scope, $stateParams, $rootScope, $state, $timeout, $interval, SweetAlert, answerService, questionService, securityService) {
+    function testCtrl($scope, $stateParams, $rootScope, $state, $timeout, $interval, SweetAlert, answerService, questionService, securityService, utilService) {
 
         var user = securityService.getUser();
         var time = 0;
@@ -41,7 +41,7 @@
         function updateProgressBar(questions) {
             if(questions.length) {
                 $scope.question = questions[0];
-                var percentage = wqUtil.getPercetange($state.params.answered, $state.params.total);
+                var percentage = utilService.getPercetange($state.params.answered, $state.params.total);
                 $scope.$emit('percentageReady', percentage);
                 startTimeCounter();
             }
@@ -49,8 +49,8 @@
 
         function startTimeCounter() {
             $interval(function() {
-                time+=0.001;
-            }, 1);
+                time+=0.005;
+            }, 5);
         }
 
         function getTime() {

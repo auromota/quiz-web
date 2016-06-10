@@ -7,9 +7,9 @@
 
     app.controller('appCtrl', appCtrl);
 
-    appCtrl.$inject = ['$scope', '$state', 'SweetAlert', 'testService', 'answerService', 'questionService'];
+    appCtrl.$inject = ['$scope', '$state', 'SweetAlert', 'testService', 'answerService', 'questionService', 'utilService'];
 
-    function appCtrl($scope, $state, SweetAlert, testService, answerService, questionService) {
+    function appCtrl($scope, $state, SweetAlert, testService, answerService, questionService, utilService) {
         $scope.user = {};
         $scope.test = {};
 
@@ -19,12 +19,14 @@
         });
 
         $scope.$on('questionAnswered', function(event, answer) {
-            $scope.answers.forEach(function(a, i) {
+            $scope.answers.forEach(updateAnswer);
+            pickAnotherQuestion();
+
+            function updateAnswer(a, i) {
                 if(a.id == answer.id) {
                     $scope.answers[i] = angular.copy(answer);
                 }
-            });
-            pickAnotherQuestion();
+            }
         });
 
         function getUserTests() {
@@ -72,12 +74,14 @@
 
         function checkForIncompleteTests(tests) {
             var testId;
-            tests.forEach(function(test) {
+            tests.forEach(checkTest);
+            return testId;
+
+            function checkTest(test) {
                 if(!test.completedOn) {
                     testId = test.id;
                 }
-            });
-            return testId;
+            }
         }
 
         function loadTest(testId) {
@@ -116,37 +120,17 @@
             )
         }
 
-        function isNumberValid(array, pos) {
-            var isValid = true;
-            array.forEach(function(id) {
-                if(id == pos) isValid = false;
-            });
-            return isValid;
-        }
-
-        function generateRandomArray(size) {
-            var array = [];
-            var arraySize = size > 15 ? 15 : size;
-            for(var i=0; i<arraySize; i++) {
-                var pos = Math.floor(Math.random() * size);
-                while(!isNumberValid(array, pos)) {
-                    var pos = Math.floor(Math.random() * size);
-                }
-                array.push(pos);
-            }
-            return array;
-        }
-
         function addRandomQuestionsToTest() {
             questionService.getAll().then(
                 function(questions) {
-                    var positions = generateRandomArray(questions.length);
+                    var positions = utilService.generateRandomArray(questions.length);
                     var answers = [];
-                    positions.forEach(function(pos) {
+                    positions.forEach(function(pos, i) {
                         var answer = {
                             testId: $scope.test.id,
                             questionId: questions[pos].id,
-                            time: 0
+                            time: 0,
+                            order: i+1
                         }
                         answers.push(answer);
                     })
@@ -183,12 +167,15 @@
 
         function pickAnotherQuestion() {
             var id;
+            var i = 0;
             if($scope.answers.length) {
-                $scope.answers.forEach(function(answer) {
-                    if(answer.answer == null) {
-                        id = answer.id;
+                while(!id) {
+                    if(i >= $scope.answers.length) break;
+                    if($scope.answers[i].answer == null) {
+                        id = $scope.answers[i].id;
                     }
-                });
+                    i++;
+                }
                 if(id) {
                     goToQuestion(id);
                 } else {
@@ -211,7 +198,7 @@
 
         function endTest() {
             var rightCount = countRightAnswers();
-            var percentage = wqUtil.getPercetange(rightCount, $scope.answers.length);
+            var percentage = utilService.getPercetange(rightCount, $scope.answers.length);
             var test = {
                 id: $scope.answers[0].testId,
                 completedOn: new Date(),

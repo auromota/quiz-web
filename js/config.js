@@ -46,7 +46,8 @@
             { name: 'questionId', type: lf.Type.INTEGER },
             { name: 'answer', type: lf.Type.INTEGER, isNullable: true },
             { name: 'right', type: lf.Type.BOOLEAN, isNullable: true },
-            { name: 'time', type: lf.Type.NUMBER }
+            { name: 'time', type: lf.Type.NUMBER },
+            { name: 'order', type: lf.Type.INTEGER }
         ],
         primaryKeys: [{column: 'id', isAutoIncrement: true}],
         foreignKeys: [
