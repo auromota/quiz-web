@@ -18,6 +18,12 @@
         <p><strong>Desempenho:</strong> {{data.test.percentage | number: 2}}% ({{data.test.right}} acertos em {{data.test.total}} perguntas)</p>
         <p><strong>Duração do teste:</strong> {{totalTime | number: 2}} s</p>
         <div google-chart chart="questionTimeChart"></div>
+        <strong>Perguntas do teste:</strong>
+        <p ng-repeat="answer in data.answers">
+            <strong>Questão {{answer.order}}: {{answer.question.text}}</strong>
+            <span ng-if="answer.answer == answer.question.rightAnswer" class="glyphicon glyphicon-ok green-answer" aria-hidden="true"></span>
+            <span ng-if="answer.answer != answer.question.rightAnswer" class="glyphicon glyphicon-remove red-answer" aria-hidden="true"></span>
+        </p>
     </div>
 </div>
 

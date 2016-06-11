@@ -1,5 +1,6 @@
 /*
     Author: Fabiano Lomonaco <fabiano.lomonaco.junior@gmail.com>
+            Auro Mota <auro@blueorc.com>
 */
 
 .jumbotron-btns a:nth-child(2) {
@@ -17,4 +18,12 @@
 
 .left-panel {
     width: 30% !important;
+}
+
+.green-answer {
+    color: green;
+}
+
+.red-answer {
+    color: red;
 }
