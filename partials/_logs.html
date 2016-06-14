@@ -20,20 +20,23 @@
     <table class="table table-hover table-responsive">
         <thead>
             <tr class="active table-text">
-                <th><center>Matrícula</center></th>
-                <th><center>Nome</center></th>
-                <th><center>Porcentagem de acerto</center></th>
-                <th><center>Feito em</center></th>
-                <th></th>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>Porcentagem de acerto</th>
+                <th>Feito em</th>
+                <th>Detalhes</th>
             </tr>
         </thead>
         <tbody>
+            <tr ng-if="tests.length == 0">
+                <td colspan="5">Nenhum teste foi realizado.</td>
+            </tr>
             <tr ng-repeat="test in tests">
                 <td>{{test.users.id}}</td>
                 <td>{{test.users.name}}</td>
                 <td>{{test.tests.percentage | number: 0}}%</td>
                 <td>{{test.tests.completedOn | date: 'dd/MM/yyyy - HH:mm'}}</td>
-                <td ng-click="details(test.tests.id)">Detalhes</td>
+                <td ng-click="details(test.tests.id)"><span class="glyphicon glyphicon-info-sign mouse-link"></span></td>
             </tr>
         </tbody>
     </table>

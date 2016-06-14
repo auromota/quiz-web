@@ -27,3 +27,7 @@
 .red-answer {
     color: red;
 }
+
+.mouse-link {
+    cursor: pointer;
+}
