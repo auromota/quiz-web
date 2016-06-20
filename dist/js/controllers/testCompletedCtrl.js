@@ -1,0 +1,1 @@
+!function(){"use strict";function t(t,e,n,r,c){function i(e){r.getById(e).then(function(e){t.rightCount=e.right,t.total=e.total,t.$emit("percentageReady",e.percentage)})}var o=c.getUser();o.id?i(e.testId):n.go("home")}app.controller("testCompletedCtrl",t),t.$inject=["$scope","$stateParams","$state","testService","securityService"]}();

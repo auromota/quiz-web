@@ -2,7 +2,7 @@
     Author: Auro Mota <auro@blueorc.com>
 */
 
-(function() {
+(function () {
     'use strict';
 
     app.controller('credentialsCtrl', credentialsCtrl);
@@ -12,7 +12,7 @@
     function credentialsCtrl($scope, $rootScope, $timeout, SweetAlert, userService, securityService) {
         $scope.user = {};
 
-        $scope.submit = function() {
+        $scope.submit = function () {
             var params = {
                 title: 'Pronto para começar?',
                 text: 'Bem-vindo, ' + $scope.user.name + '! Vamos testar seus conhecimentos. Bora lá? ;)',
@@ -24,8 +24,8 @@
                 closeOnCancel: false,
                 closeOnConfirm: false
             };
-            SweetAlert.swal(params, function(isConfirm) {
-                if(isConfirm) {
+            SweetAlert.swal(params, function (isConfirm) {
+                if (isConfirm) {
                     confirmUser();
                 } else {
                     showComeBackSoonMessage();
@@ -35,7 +35,7 @@
 
         function confirmUser() {
             userService.save($scope.user).then(
-                function(user) {
+                function (user) {
                     securityService.login(user);
                     $rootScope.$broadcast('userSelected', user);
                 }

@@ -1,0 +1,1 @@
+!function(){"use strict";function n(){function n(n){window.localStorage[r]=angular.toJson(n)}function o(){window.localStorage[r]="{}"}function t(){var n=window.localStorage[r],o={};return n&&(o=angular.fromJson(n)),o}var r="authentication",a={login:n,logout:o,getUser:t};return a}app.factory("securityService",n),n.$inject=[]}();

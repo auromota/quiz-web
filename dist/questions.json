@@ -1,0 +1,26 @@
+[
+    {
+        "text": "Considere uma função definida como \"function soma(a, b) { return a+b; }\". Se a invocarmos utilizando \"soma(2, 3)\", faremos uma invocação do tipo:",
+        "firstAnswer": "Invocação como método",
+        "secondAnswer": "Invocação como constrututor",
+        "thirdAnswer": "Invocação como função",
+        "fourthAnswer": "Por meio do método \"apply()\"",
+        "rightAnswer": 3
+    },
+    {
+        "text": "A respeito dos construtores, é correto dizer que:",
+        "firstAnswer": "Ao executar \"var array = new Array()\", o \"array.this\" refere-se ao mesmo contexto em que a variável \"array\" está.",
+        "secondAnswer": "11 mil anos",
+        "thirdAnswer": "25 mil anos",
+        "fourthAnswer": "30 mil anos",
+        "rightAnswer": 2
+    },
+    {
+        "text": "(FUVEST 2012) Do ponto de vista tectônico, núcleos rochosos mais antigos, em áreas continentais mais interiorizadas, tendem a ser os mais estáveis, ou seja, menos sujeitos a abalos sísmicos e deformações. Em termos geomorfológicos, a maior estabilidade tectônica dessas áreas faz com que elas apresentem uma forte tendência à ocorrência, ao longo do tempo geológico, de um processo de",
+        "firstAnswer": "aplainamento das formas de relevo, decorrente do intemperismo e da erosão.",
+        "secondAnswer": "formação de depressões absolutas, gerada por acomodação de blocos rochosos.",
+        "thirdAnswer": "formação de canyons, decorrente de intensa erosão eólica.",
+        "fourthAnswer": "produção de desníveis topográficos acentuados, resultante da contínua sedimentação dos rios.",
+        "rightAnswer": 1
+    }
+]

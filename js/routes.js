@@ -2,10 +2,12 @@
     Author: Auro Mota <auro@blueorc.com>
 */
 
-(function() {
+(function () {
     'use strict';
 
     app.config(configRoute);
+
+    configRoute.$inject = ['$stateProvider', '$urlRouterProvider'];
 
     function configRoute($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/home');

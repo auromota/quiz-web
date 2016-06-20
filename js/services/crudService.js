@@ -140,11 +140,11 @@
                 var query = dbService.db.update(dbService[table]);
                 var columns = Object.keys(data);
                 columns.forEach(function(column) {
-                    if(column != dbService[table].id.name_) {
+                    if(column != dbService[table].id.getName()) {
                         query = query.set(dbService[table][column], data[column]);
                     }
                 });
-                query.where(dbService[table][dbService[table].id.name_].eq(id)).exec().then(
+                query.where(dbService[table][dbService[table].id.getName()].eq(id)).exec().then(
                     function(result) {
                         deferred.resolve(result);
                     }, function(err) {
