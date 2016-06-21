@@ -64,6 +64,46 @@
         "thirdAnswer": "Selecionar a mensagem recebida de João e clicar em Responder.",
         "fourthAnswer": "Selecionar a mensagem recebida de João e clicar em Apagar, já que não é possível identificar o e-mail de João para o envio da resposta.",
         "rightAnswer": 3
+    },
+       {
+        "text": "(TRE - BA) Na composição da rede, considerando isoladamente uma Intranet, será imprescindível um:",
+        "firstAnswer": "Firewall. ",
+        "secondAnswer": "Roteador.",
+        "thirdAnswer": "Servidor de aplicações corporativas.",
+        "fourthAnswer": "Servidor WEB.",
+        "rightAnswer": 4
+    },
+   {
+        "text": "(TRE - BA) Os endereços dos sites visitados nos últimos dias, por meio de um computador, podem ser armazenados pelo MS Internet Explorer e serão buscados na lista:",
+        "firstAnswer": "Favoritos.",
+        "secondAnswer": "Pesquisar.",
+        "thirdAnswer": "Histórico.",
+        "fourthAnswer": "Gerenciador de sites.",
+        "rightAnswer": 3
+    },
+   {
+        "text": "(MPU. ESAF. 2004) A convenção de nomes que identifica de forma exclusiva a localização de um computador, diretório ou arquivo na internet e que também especifica o protocolo internet apropriado é denominada: ",
+        "firstAnswer": "Browser.",
+        "secondAnswer": "URL.",
+        "thirdAnswer": "Hiperlink.",
+        "fourthAnswer": "Servidor de DNS.",
+        "rightAnswer": 2
+    },
+   {
+        "text": "(TRE - BA) Uma mensagem para ser utilizada posteriormente, enquanto o software estiver online, deve ser salva na pasta:",
+        "firstAnswer": "Rascunhos.",
+        "secondAnswer": "Itens enviados.",
+        "thirdAnswer": "Itens a enviar.",
+        "fourthAnswer": "Lixeira.",
+        "rightAnswer": 1
+    },
+   {
+        "text": "(MPU. ESAF. 2004) Para configurar um aplicativo utilizado para receber e enviar e-mail, deve-se conhecer o endereço fornecido pelo administrador de rede ou pelo provedor de acesso dos servidores:",
+        "firstAnswer": "SNMP e ICMP.",
+        "secondAnswer": "WWW e FTP.",
+        "thirdAnswer": "WWW e SMTP.",
+        "fourthAnswer": "SMTP e POP3.",
+        "rightAnswer": 4
     }
 
 ]
