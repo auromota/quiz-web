@@ -2,21 +2,23 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var minifyhtml = require('gulp-minify-html');
 var minifycss = require('gulp-minify-css');
+var minifyjson = require('gulp-jsonminify');
 var htmlreplace = require('gulp-html-replace');
 
 gulp.task('default', ['build']);
 
 gulp.task('build', ['copyResources', 'minifyJs', 'minifyCss', 'useCdn', 'minifyPartials']);
 
-gulp.task('copyResources', ['copyImg', 'copyJson']);
+gulp.task('copyResources', ['copyImg', 'minifyJson']);
 
 gulp.task('copyImg', function () {
     return gulp.src('img/*')
         .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('copyJson', function() {
+gulp.task('minifyJson', function () {
     return gulp.src('questions.json')
+        .pipe(minifyjson())
         .pipe(gulp.dest('dist'));
 })
 
