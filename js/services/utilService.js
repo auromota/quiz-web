@@ -7,9 +7,9 @@
 
     app.factory('utilService', utilService);
 
-    utilService.$inject = [];
+    utilService.$inject = ['NUMBER_OF_QUESTIONS'];
 
-    function utilService() {
+    function utilService(NUMBER_OF_QUESTIONS) {
         var service = {
             getPercetange: getPercetange,
             generateRandomArray: generateRandomArray,
@@ -27,7 +27,7 @@
 
         function generateRandomArray(size) {
             var array = [];
-            var arraySize = size > 15 ? 15 : size;
+            var arraySize = size > NUMBER_OF_QUESTIONS ? NUMBER_OF_QUESTIONS : size;
             for(var i=0; i<arraySize; i++) {
                 var pos = Math.floor(Math.random() * size);
                 while(!canInsertNumber(array, pos)) {
