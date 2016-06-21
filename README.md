@@ -10,6 +10,6 @@ npm install
 You can use `gulp` to build the project. The output will be placed in the `dist` folder.
 
 ## Copyright and License
-Copyright 2016 Auro Mota
+Copyright (c) 2016 Auro Mota
 
 This software is released under the MIT license.
