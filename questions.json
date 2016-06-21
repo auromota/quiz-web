@@ -42,7 +42,7 @@
    {
         "text": "(CONCURSO PÚBLICO MG-2014) No  Excel,  selecionando  as  células  cujos  dados  farão  parte  de  um  gráfico,  ao  clicar  no  botão GRÁFICO o que acontecerá? ",
         "firstAnswer": "O gráfico será gerado automaticamente e inserido na planilha imediatamente.",
-        "secondAnswer": Surgirá  o  assistente  de  gráfico  para  que  se  possa  escolher  qual  o  tipo  de  gráfico  e  seus  subtipos, permitindo ainda que seja exibido um modelo de como ficarão os dados de acordo com o tipo de gráfico selecionado.",
+        "secondAnswer": "Surgirá  o  assistente  de  gráfico  para  que  se  possa  escolher  qual  o  tipo  de  gráfico  e  seus  subtipos, permitindo ainda que seja exibido um modelo de como ficarão os dados de acordo com o tipo de gráfico selecionado.",
         "thirdAnswer": "O Excel solicitará a posição X e Y para inserção do gráfico.",
         "fourthAnswer": "O Excel solicitará apenas o nome a ser atribuído ao gráfico e fará a inserção.",
         "rightAnswer": 2
@@ -50,10 +50,10 @@
 
    {
         "text": "(CONCURSO PÚBLICO MG-2014) No Word, quais as teclas de atalho usadas para salvar o documento em edição?",
-        "firstAnswer": "CtrI+B",
-        "secondAnswer": "CtrI+C",
-        "thirdAnswer": "CtrI+V",
-        "fourthAnswer": "CtrI+X",
+        "firstAnswer": "CtrI+B.",
+        "secondAnswer": "CtrI+C.",
+        "thirdAnswer": "CtrI+V.",
+        "fourthAnswer": "CtrI+X.",
         "rightAnswer": 1
     },
 
