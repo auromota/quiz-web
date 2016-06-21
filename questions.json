@@ -23,7 +23,7 @@
         "fourthAnswer": "produção de desníveis topográficos acentuados, resultante da contínua sedimentação dos rios.",
         "rightAnswer": 1
     },
-       {
+    {
         "text": "(CONCURSO PÚBLICO MG-2014) Considerando  que  você  está  editando  um  texto  no  MS  Word,  versão  português,  assinale  a  opção que indica o resultado correto para o comando mencionado.",
         "firstAnswer": "CtrI+T faz a transferência do texto para um arquivo a ser especificado. ",
         "secondAnswer": "AIt+A exibe o menu de Ajuda.",
@@ -31,7 +31,7 @@
         "fourthAnswer": "CtrI+Z desfaz a última digitação.",
         "rightAnswer": 4
     },
-   {
+    {
         "text": "(CONCURSO PÚBLICO MG-2014) Memória interposta entre  RAM  e  microprocessador,  ou  já  incorporada  aos  microprocessadores, destinada  a  aumentar  a  taxa  de  transferência  entre  RAM  e  o  processador.  Esta  descrição  define  qual memória? ",
         "firstAnswer": "Virtual.",
         "secondAnswer": "Secundária.",
@@ -39,7 +39,7 @@
         "fourthAnswer": "Memória Volátil.",
         "rightAnswer": 3
     },
-   {
+    {
         "text": "(CONCURSO PÚBLICO MG-2014) No  Excel,  selecionando  as  células  cujos  dados  farão  parte  de  um  gráfico,  ao  clicar  no  botão GRÁFICO o que acontecerá? ",
         "firstAnswer": "O gráfico será gerado automaticamente e inserido na planilha imediatamente.",
         "secondAnswer": "Surgirá  o  assistente  de  gráfico  para  que  se  possa  escolher  qual  o  tipo  de  gráfico  e  seus  subtipos, permitindo ainda que seja exibido um modelo de como ficarão os dados de acordo com o tipo de gráfico selecionado.",
@@ -47,8 +47,7 @@
         "fourthAnswer": "O Excel solicitará apenas o nome a ser atribuído ao gráfico e fará a inserção.",
         "rightAnswer": 2
     },
-
-   {
+    {
         "text": "(CONCURSO PÚBLICO MG-2014) No Word, quais as teclas de atalho usadas para salvar o documento em edição?",
         "firstAnswer": "CtrI+B.",
         "secondAnswer": "CtrI+C.",
@@ -56,8 +55,7 @@
         "fourthAnswer": "CtrI+X.",
         "rightAnswer": 1
     },
-
-   {
+    {
         "text": "(CONCURSO PÚBLICO MG-2014) José, gerente  de  vendas  de  uma  multinacional,  recebe  um  e-mail  de  João.  No  e-mail  João  faz  um  grande pedido de peças e pede urgência na resposta. José usa o Outlook Express em seu computador, mas não tem o endereço de e-mail de João no seu catálogo de endereços. Qual o comando mais eficaz para responder este e-mail recebido por José através do Outlook Express? ",
         "firstAnswer": "Selecionar a mensagem recebida de João e clicar em Encaminhar.",
         "secondAnswer": "Selecionar a mensagem recebida de João e clicar em Encaminhara todos.",
@@ -65,5 +63,4 @@
         "fourthAnswer": "Selecionar a mensagem recebida de João e clicar em Apagar, já que não é possível identificar o e-mail de João para o envio da resposta.",
         "rightAnswer": 3
     }
-
 ]
