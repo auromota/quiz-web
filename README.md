@@ -5,8 +5,9 @@ Web Quiz is a simple application to apply tests and generate reports of it. It i
 After the downloading or cloning the repository, use:
 ```bash
 npm install
-npm start
 ```
+
+You can use `gulp` to build the project. The output will be placed in the `dist` folder.
 
 ## Copyright and License
 Copyright 2016 Auro Mota
