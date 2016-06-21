@@ -46,7 +46,7 @@ gulp.task('useCdn', ['copyNgSweetAlert'], function () {
     return gulp.src('./index.html')
         .pipe(htmlreplace({
             js: {
-                src: gulp.src('cdn-js.html'),
+                src: gulp.src('gulp/cdn-js.html'),
                 tpl: '%s'
             },
             sweetalert: {
@@ -54,7 +54,7 @@ gulp.task('useCdn', ['copyNgSweetAlert'], function () {
                 tpl: '<script src="/lib/SweetAlert.min.js"></script>'
             },
             css: {
-                src: gulp.src('cdn-css.html'),
+                src: gulp.src('gulp/cdn-css.html'),
                 tpl: '%s'
             }
         }))
