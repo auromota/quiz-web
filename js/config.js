@@ -65,4 +65,6 @@
 
     app.constant('TABLE', tables);
 
+    app.constant('NUMBER_OF_QUESTIONS', 10);
+
 })();
