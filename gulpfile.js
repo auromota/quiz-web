@@ -2,21 +2,23 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var minifyhtml = require('gulp-minify-html');
 var minifycss = require('gulp-minify-css');
+var minifyjson = require('gulp-jsonminify');
 var htmlreplace = require('gulp-html-replace');
 
 gulp.task('default', ['build']);
 
 gulp.task('build', ['copyResources', 'minifyJs', 'minifyCss', 'useCdn', 'minifyPartials']);
 
-gulp.task('copyResources', ['copyImg', 'copyJson']);
+gulp.task('copyResources', ['copyImg', 'minifyJson']);
 
 gulp.task('copyImg', function () {
     return gulp.src('img/*')
         .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('copyJson', function() {
+gulp.task('minifyJson', function () {
     return gulp.src('questions.json')
+        .pipe(minifyjson())
         .pipe(gulp.dest('dist'));
 })
 
@@ -44,7 +46,7 @@ gulp.task('useCdn', ['copyNgSweetAlert'], function () {
     return gulp.src('./index.html')
         .pipe(htmlreplace({
             js: {
-                src: gulp.src('cdn-js.html'),
+                src: gulp.src('gulp/cdn-js.html'),
                 tpl: '%s'
             },
             sweetalert: {
@@ -52,7 +54,7 @@ gulp.task('useCdn', ['copyNgSweetAlert'], function () {
                 tpl: '<script src="/lib/SweetAlert.min.js"></script>'
             },
             css: {
-                src: gulp.src('cdn-css.html'),
+                src: gulp.src('gulp/cdn-css.html'),
                 tpl: '%s'
             }
         }))
