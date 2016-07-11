@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "http-server -o"
+    "start": "http-server -o",
+    "deploy": "gulp"
   },
   "author": "BlueOrc",
   "contributors": [
